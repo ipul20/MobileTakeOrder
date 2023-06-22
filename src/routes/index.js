@@ -13,6 +13,7 @@ import {COLOR} from '../styles';
 // MAIN SCREEN
 import Home from '../screens/main/Home';
 import Login from '../screens/auth/Login';
+import Riwayat from '../screens/main/Riwayat';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -20,7 +21,7 @@ function MainScreen() {
     <Tab.Navigator screenOptions={tabBarOptions}>
       <Tab.Screen
         name="Riwayat"
-        component={Home}
+        component={Riwayat}
         options={{
           tabBarLabel: 'Riwayat',
           header: () => null,
