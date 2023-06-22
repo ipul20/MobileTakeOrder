@@ -12,6 +12,7 @@ import {COLOR} from '../styles';
 
 // MAIN SCREEN
 import Home from '../screens/main/Home';
+import Login from '../screens/auth/Login';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -101,6 +102,7 @@ export default function RoutesContainer() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
       </Stack.Navigator>

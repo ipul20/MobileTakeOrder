@@ -1,240 +1,241 @@
-import React from 'react';
-import {View, Text, Image} from 'react-native';
-import AppIntroSlider from 'react-native-app-intro-slider';
-import {COLOR, COLOR_GRAY} from '../../styles';
-import {widthPercentageToDP as w} from 'react-native-responsive-screen';
-import {heightPercentageToDP as h} from 'react-native-responsive-screen';
-import {TextInput} from 'react-native';
-import {TouchableOpacity} from 'react-native';
-import {ScrollView, Keyboard} from 'react-native';
-import {Dimensions} from 'react-native';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
-import RegisterComponent from '../../components/auth/Login/RegisterComponent';
-import LoginComponent from '../../components/auth/Login/LoginComponent';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  // TextInput,
+  TouchableOpacity,
+  ScrollView,
+  Image,
+} from 'react-native';
+import {TextInput, Button} from 'react-native-paper';
+import {useNavigation} from '@react-navigation/core';
+import {API_BASE_URL, DEFAULT_PROFILE_PICTURE} from '../../../env';
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from 'react-native-responsive-screen';
+import {COLOR} from '../../styles';
 
-const slides = [
-  {
-    key: 'one',
-    title: 'Dapatkan pengalaman menarik',
-    text: 'Find your best experience while studying and seeking knowledge in here',
-    image: require('./../../assets/login1.png'),
-    backgroundColor: '#FCE2EA',
-  },
-  {
-    key: 'two',
-    title: 'Sukses menjadi ASN',
-    text: 'Find your best experience while studying and seeking knowledge in here',
-    image: require('./../../assets/login2.png'),
-    backgroundColor: '#E2E2FC',
-  },
-  {
-    key: 'login',
-    title: 'Login untuk masuk ke Aplikasi',
-    text: 'Login untuk masuk ke Aplikasi',
-    image: require('./../../assets/IntroImage.png'),
-    backgroundColor: '#E2F3FC',
-  },
-];
+const Login = () => {
+  const navigation = useNavigation();
 
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      hideKeyboard: true,
-      username: '',
-      password: '',
-      waNumber: '',
-      index: 0,
-      routes: [
-        {key: 'first', title: 'Daftar'},
-        {key: 'second', title: 'Masuk'},
-      ],
-    };
-  }
+  const [password, setPassword] = useState({value: '', error: false});
+  const [username, setUsername] = useState({value: '', error: false});
+  // const [checked, setChecked] = useState(false);
+  const [icon, setIcon] = useState({
+    icon: 'eye',
+    status: true,
+  });
 
-  componentDidMount() {
-    this.keyboardDidShowListener = Keyboard.addListener(
-      'keyboardDidShow',
-      this._keyboardDidShow,
-    );
-    this.keyboardDidHideListener = Keyboard.addListener(
-      'keyboardDidHide',
-      this._keyboardDidHide,
-    );
-  }
-
-  componentWillUnmount() {
-    this.keyboardDidShowListener.remove();
-    this.keyboardDidHideListener.remove();
-  }
-
-  _keyboardDidShow = () => {
-    this.setState({hideKeyboard: false});
+  const showPass = e => {
+    if (icon.icon == 'eye') {
+      setIcon({
+        ...icon,
+        icon: 'eye-off',
+        status: false,
+      });
+    } else {
+      setIcon({
+        ...icon,
+        icon: 'eye',
+        status: true,
+      });
+    }
   };
 
-  _keyboardDidHide = () => {
-    this.setState({hideKeyboard: true});
+  const cekNull = e => {
+    if (e == '') {
+      return true;
+    }
   };
 
-  _renderItem = ({item}) => {
-    const index = this.state.index;
-    const routes = this.state.routes;
-    const FirstRoute = () => <RegisterComponent />;
+  const validasiNull = () => {
+    {
+      cekNull(password.value)
+        ? setPassword({
+            ...password,
+            error: true,
+          })
+        : setPassword({
+            ...password,
+            error: false,
+          });
+    }
+    {
+      cekNull(confirm.value)
+        ? setConfirm({
+            ...confirm,
+            error: true,
+          })
+        : setConfirm({
+            ...confirm,
+            error: false,
+            message: 'confirm password invalid!',
+          });
+    }
+  };
+  const loginpress = () => {
+    fetch(`${API_BASE_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username.value,
+        password: password.value,
+      }),
+    })
+      .then(res => res.json())
+      .then(async res => {
+        console.log('respon', res);
+        if (res.code == 200) {
+          navigation.replace('HomeStack');
+        } else {
+          alert(res.message);
+        }
+      });
+  };
 
-    const SecondRoute = () => <LoginComponent />;
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}>Login Account</Text>
+      <View style={styles.logo}>
+        <Image
+          source={DEFAULT_PROFILE_PICTURE}
+          style={{alignSelf: 'center'}}
+          resizeMode={'center'}
+        />
+      </View>
+      <Text
+        style={{
+          fontSize: 20,
+          fontWeight: 'bold',
+          color: '#000000',
+          marginTop: hp(2),
+          marginBottom: hp(2),
+          alignSelf: 'center',
+        }}>
+        Warung Bakso Solo
+      </Text>
+      <View style={styles.groupinput}>
+        <TextInput
+          outlineColor="#0095da"
+          style={styles.input}
+          label="Username"
+          mode="outlined"
+          value={username.value}
+          onChangeText={text => setUsername({value: text, error: false})}
+          left={<TextInput.Icon name="account" color="#0095DA" />}
+          theme={{colors: {primary: COLOR.PRIMARY}}}
+        />
+        <TextInput
+          outlineColor="#0095da"
+          style={styles.input}
+          label="Password"
+          mode="outlined"
+          secureTextEntry={icon.status}
+          value={password.value}
+          onChangeText={text => setPassword({value: text, error: false})}
+          theme={{colors: {primary: COLOR.PRIMARY}}}
+          left={<TextInput.Icon name="lock" color="#0095DA" />}
+          right={
+            <TextInput.Icon
+              name={icon.icon}
+              color="#0095DA"
+              onPress={e => showPass()}
+            />
+          }
+        />
 
-    const renderScene = SceneMap({
-      first: FirstRoute,
-      second: SecondRoute,
-    });
-
-    const layout = Dimensions.get('window');
-    return (
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{flex: 1, backgroundColor: COLOR.WHITE}}>
-          {item.key !== 'login' ? (
-            <View
-              style={{
-                height: h(100),
-                width: w(100),
-              }}>
-              <Image
-                source={item.image}
-                style={{
-                  // resizeMode: 'center',
-                  height: '100%',
-                  width: '100%',
-                  alignSelf: 'center',
-                  backgroundColor: COLOR.SECONDARY,
-                  flex: 1,
-                }}
-              />
-            </View>
-          ) : (
-            <>
-              <View
-                style={{
-                  width: item.key === 'login' ? w(60) : w(80),
-                  height: item.key === 'login' ? w(37.5) : w(50),
-                  marginTop: item.key === 'login' ? w(15) : w(30),
-                  borderRadius: item.key === 'login' ? w(7.5) : w(10),
-                  backgroundColor: item.backgroundColor,
-                  alignSelf: 'center',
-                }}>
-                <Image
-                  style={{
-                    height: item.key === 'login' ? w(45) : w(60),
-                    resizeMode: 'contain',
-                    aspectRatio: 1,
-                    marginTop: item.key === 'login' ? -w(7.5) : -w(10),
-                    alignSelf: 'center',
-                  }}
-                  source={item.image}
-                />
-              </View>
-              <TabView
-                style={{
-                  marginTop: w(6),
-                  height: w(100),
-                }}
-                navigationState={{index, routes}}
-                renderScene={renderScene}
-                onIndexChange={i => this.setState({index: i})}
-                initialLayout={{width: layout.width}}
-                renderTabBar={props => (
-                  <TabBar
-                    indicatorStyle={{
-                      backgroundColor: COLOR.SECONDARY,
-                    }}
-                    renderLabel={({route, focused, color}) => (
-                      <Text
-                        style={{
-                          color: focused ? COLOR.SECONDARY : '#8C8C8C',
-                          fontSize: w(4),
-                          fontWeight: 'bold',
-                        }}>
-                        {route.title}
-                      </Text>
-                    )}
-                    {...props}
-                    style={{backgroundColor: '#fff'}}
-                  />
-                )} // <-- add this line
-              />
-            </>
-          )}
+        <View style={{width: '35%', height: 30, left: 88}}>
+          <TouchableOpacity>
+            <Text style={{fontWeight: 'bold', top: 8}}>Lupa Kata Sandi ?</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    );
-  };
-  _onDone = () => {
-    // User finished the introduction. Show real app through
-    // navigation or simply by controlling state
-    this.setState({showRealApp: true});
-  };
-  _renderNextButton = () =>
-    this.state.hideKeyboard ? (
-      <View
-        style={{
-          marginTop: h(1.5),
-          backgroundColor: COLOR.WHITE,
-          height: w(6),
-          paddingHorizontal: w(2),
-          borderRadius: w(2),
-        }}>
-        <Text
-          style={{
-            color: COLOR.SECONDARY,
-            fontSize: w(4),
-          }}>
-          Lanjut
-        </Text>
+        <Button
+          mode="contained"
+          onPress={loginpress}
+          style={styles.buttonMasuk}
+          compact={false}>
+          <Text style={{color: '#F4F9F9'}}>MASUK</Text>
+        </Button>
+        <Button
+          mode="contained"
+          onPress={() => {
+            navigation.navigate('Admin');
+          }}
+          style={styles.buttonDaftar}
+          compact={false}>
+          <Text style={{color: '#0095da'}}>Menu Admin</Text>
+        </Button>
+        <Button
+          mode="contained"
+          onPress={() => {
+            navigation.navigate('MainScreen');
+          }}
+          style={styles.buttonDaftar}
+          compact={false}>
+          <Text style={{color: '#0095da'}}>Menu User</Text>
+        </Button>
       </View>
-    ) : (
-      <></>
-    );
-  _renderPrevButton = () =>
-    this.state.hideKeyboard ? (
-      <View
-        style={{
-          marginTop: h(1.5),
-          backgroundColor: COLOR.WHITE,
-          height: w(6),
-          paddingHorizontal: w(2),
-          borderRadius: w(2),
-        }}>
-        <Text
-          style={{
-            color: COLOR.SECONDARY,
-            fontSize: w(4),
-          }}>
-          Kembali
-        </Text>
-      </View>
-    ) : (
-      <></>
-    );
+    </View>
+  );
+};
 
-  render() {
-    return (
-      <AppIntroSlider
-        showDoneButton={false}
-        showPrevButton={true}
-        renderItem={this._renderItem}
-        data={slides}
-        dotStyle={{
-          backgroundColor: '#BCDFF0',
-          marginTop: this.state.hideKeyboard ? 0 : 999,
-        }}
-        activeDotStyle={{
-          backgroundColor: COLOR.SECONDARY,
-          marginTop: this.state.hideKeyboard ? 0 : 999,
-        }}
-        renderNextButton={this._renderNextButton}
-        renderPrevButton={this._renderPrevButton}
-        // renderPagination={() => null}
-        // onDone={this._onDone}
-      />
-    );
-  }
-}
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'flex-start',
+  },
+  header: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#0095DA',
+    top: 12,
+    alignSelf: 'center',
+    top: 38,
+  },
+  logo: {
+    marginTop: hp(7),
+    height: hp(15),
+    width: wp(60),
+    borderRadius: wp(20),
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  groupinput: {
+    width: '100%',
+    height: '90%',
+    backgroundColor: '#fff',
+    alignItems: 'center',
+  },
+  input: {
+    backgroundColor: 'white',
+    width: '95%',
+    marginTop: 10,
+    borderTopColor: '#0095DA',
+    width: 281,
+  },
+  buttonDaftar: {
+    width: '80%',
+    backgroundColor: 'white',
+    paddingVertical: 5,
+    marginBottom: 10,
+    borderRadius: 7,
+    borderColor: '#0095DA',
+    borderWidth: 1,
+  },
+  buttonMasuk: {
+    width: '80%',
+    paddingVertical: 5,
+    marginBottom: 10,
+    borderRadius: 7,
+    backgroundColor: '#0095DA',
+    borderWidth: 2,
+    marginTop: 20,
+  },
+});
+
+export default Login;
