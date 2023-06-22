@@ -163,7 +163,7 @@ const Login = () => {
         <Button
           mode="contained"
           onPress={() => {
-            navigation.navigate('Admin');
+            navigation.navigate('HomeAdmin');
           }}
           style={styles.buttonDaftar}
           compact={false}>

@@ -14,6 +14,9 @@ import {COLOR} from '../styles';
 import Home from '../screens/main/Home';
 import Login from '../screens/auth/Login';
 import Riwayat from '../screens/main/Riwayat';
+import HomeAdmin from '../screens/admin/HomeAdmin';
+import AdminUser from '../screens/page/AdminUser';
+import AdminMenu from '../screens/page/AdminMenu';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -106,6 +109,11 @@ export default function RoutesContainer() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
+
+        {/* //admin */}
+        <Stack.Screen name="HomeAdmin" component={HomeAdmin} />
+        <Stack.Screen name="AdminUser" component={AdminUser} />
+        <Stack.Screen name="AdminMenu" component={AdminMenu} />
       </Stack.Navigator>
     </NavigationContainer>
   );
