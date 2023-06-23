@@ -17,6 +17,7 @@ import Riwayat from '../screens/main/Riwayat';
 import HomeAdmin from '../screens/admin/HomeAdmin';
 import AdminUser from '../screens/page/AdminUser';
 import AdminMenu from '../screens/page/AdminMenu';
+import TambahMenu from '../screens/page/TambahMenu';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -114,6 +115,7 @@ export default function RoutesContainer() {
         <Stack.Screen name="HomeAdmin" component={HomeAdmin} />
         <Stack.Screen name="AdminUser" component={AdminUser} />
         <Stack.Screen name="AdminMenu" component={AdminMenu} />
+        <Stack.Screen name="TambahMenu" component={TambahMenu} />
       </Stack.Navigator>
     </NavigationContainer>
   );

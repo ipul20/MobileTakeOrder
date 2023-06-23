@@ -1,11 +1,14 @@
 import React from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
+
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import {useNavigation} from '@react-navigation/core';
 export default function DaftarMenu(props) {
+  const navigation = useNavigation();
   const jenis = props.jenis;
   return (
     <ScrollView contentContainerStyle={styles.scroll}>
@@ -20,7 +23,7 @@ export default function DaftarMenu(props) {
           backgroundColor: '#0095DA',
           borderWidth: 2,
         }}
-        onPress={() => navigation.navigate('AdminUser')}>
+        onPress={() => navigation.navigate('TambahMenu')}>
         <View></View>
         <Text>Tambah Data {jenis}</Text>
       </Button>
