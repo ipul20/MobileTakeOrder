@@ -17,8 +17,10 @@ import {
 import {COLOR} from '../../styles';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-const TambahMenu = () => {
+export default function TambahMenu({route}) {
+  const {jenis} = route.params;
   const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     nama: '',
     harga: '',
@@ -49,6 +51,7 @@ const TambahMenu = () => {
     });
   };
   const Submit = async () => {
+    setLoading(true);
     const data = new FormData();
     data.append('gambar', {
       uri: form.gambar,
@@ -56,7 +59,7 @@ const TambahMenu = () => {
       type: form.type_gambar,
     });
     data.append('nama', form.nama);
-    data.append('kategori', 'makanan');
+    data.append('kategori', jenis);
     data.append('harga', form.harga);
     data.append('deskripsi', form.deskripsi);
     try {
@@ -69,12 +72,15 @@ const TambahMenu = () => {
         },
       });
       let result = await res.json();
+      setLoading(false);
+
       if (result.status == true) {
         navigation.replace('AdminMenu');
       }
     } catch (error) {
       // console.log('error upload', error);
       alert('Gagal Upload Gambar :', error);
+      setLoading(false);
     }
   };
   return (
@@ -142,6 +148,8 @@ const TambahMenu = () => {
           </Text>
         </View>
         <Button
+          loading={loading}
+          disabled={loading}
           mode="contained"
           style={styles.buttonMasuk}
           compact={false}
@@ -151,7 +159,7 @@ const TambahMenu = () => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -208,5 +216,3 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 });
-
-export default TambahMenu;
