@@ -69,7 +69,9 @@ const TambahMenu = () => {
         },
       });
       let result = await res.json();
-      console.log('result', result);
+      if (result.status == true) {
+        navigation.replace('AdminMenu');
+      }
     } catch (error) {
       // console.log('error upload', error);
       alert('Gagal Upload Gambar :', error);
