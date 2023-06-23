@@ -15,71 +15,62 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {COLOR} from '../../styles';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 const TambahMenu = () => {
   const navigation = useNavigation();
-
-  const [password, setPassword] = useState({value: '', error: false});
-  const [username, setUsername] = useState({value: '', error: false});
-  // const [checked, setChecked] = useState(false);
-  const [icon, setIcon] = useState({
-    icon: 'eye',
-    status: true,
+  const [form, setForm] = useState({
+    nama: '',
+    harga: '',
+    deskripsi: '',
+    gambar: '',
+    nama_gambar: '',
   });
-
-  const cekNull = e => {
-    if (e == '') {
-      return true;
-    }
+  const options = {
+    mediaType: 'photo',
   };
+  const PilihGambar = () => {
+    launchImageLibrary(options, response => {
+      console.log('Response = ', response);
 
-  const validasiNull = () => {
-    {
-      cekNull(password.value)
-        ? setPassword({
-            ...password,
-            error: true,
-          })
-        : setPassword({
-            ...password,
-            error: false,
-          });
-    }
-    {
-      cekNull(confirm.value)
-        ? setConfirm({
-            ...confirm,
-            error: true,
-          })
-        : setConfirm({
-            ...confirm,
-            error: false,
-            message: 'confirm password invalid!',
-          });
-    }
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('Image Picker Error: ', response.error);
+      } else {
+        console.log('Response = ', response);
+        setForm({
+          ...form,
+          gambar: response.assets[0].uri,
+          nama_gambar: response.assets[0].fileName,
+        });
+      }
+    });
   };
-  const loginpress = () => {
-    fetch(`${API_BASE_URL}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: username.value,
-        password: password.value,
-      }),
-    })
-      .then(res => res.json())
-      .then(async res => {
-        console.log('respon', res);
-        if (res.code == 200) {
-          navigation.replace('HomeStack');
-        } else {
-          alert(res.message);
-        }
+  const Submit = async () => {
+    const data = new FormData();
+    data.append('file_attachment', {
+      uri: form.gambar,
+      name: form.nama_gambar,
+    });
+    try {
+      let res = await fetch(API_BASE_URL + 'api/menu-store', {
+        method: 'post',
+        body: data,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        timeout: 5000,
       });
+      let result = await res.json();
+      console.log('result', result);
+    } catch (error) {
+      // Error retrieving data
+      // Alert.alert('Error', error.message);
+      console.log('error upload', error);
+    }
   };
-
   return (
     <View style={styles.container}>
       <Text
@@ -105,7 +96,8 @@ const TambahMenu = () => {
             mode="outlined"
             buttonColor="#dfdfdf"
             textColor="black"
-            style={{borderRadius: wp(2)}}>
+            style={{borderRadius: wp(2)}}
+            onPress={() => PilihGambar()}>
             Pilih Gambar
           </Button>
           <Text style={{color: 'grey', marginBottom: wp(2), marginLeft: wp(1)}}>
@@ -114,9 +106,9 @@ const TambahMenu = () => {
         </View>
         <Button
           mode="contained"
-          onPress={loginpress}
           style={styles.buttonMasuk}
-          compact={false}>
+          compact={false}
+          onPress={() => Submit()}>
           <Text style={{color: '#F4F9F9'}}>Submit</Text>
         </Button>
       </View>
