@@ -43,32 +43,36 @@ const TambahMenu = () => {
           ...form,
           gambar: response.assets[0].uri,
           nama_gambar: response.assets[0].fileName,
+          type_gambar: response.assets[0].type,
         });
       }
     });
   };
   const Submit = async () => {
     const data = new FormData();
-    data.append('file_attachment', {
+    data.append('gambar', {
       uri: form.gambar,
       name: form.nama_gambar,
+      type: form.type_gambar,
     });
+    data.append('nama', form.nama);
+    data.append('kategori', 'makanan');
+    data.append('harga', form.harga);
+    data.append('deskripsi', form.deskripsi);
     try {
-      let res = await fetch(API_BASE_URL + 'api/menu-store', {
+      let res = await fetch(API_BASE_URL + '/menu-store', {
         method: 'post',
         body: data,
         headers: {
           Accept: 'application/json',
           'Content-Type': 'multipart/form-data',
         },
-        timeout: 5000,
       });
       let result = await res.json();
       console.log('result', result);
     } catch (error) {
-      // Error retrieving data
-      // Alert.alert('Error', error.message);
-      console.log('error upload', error);
+      // console.log('error upload', error);
+      alert('Gagal Upload Gambar :', error);
     }
   };
   return (
@@ -85,9 +89,40 @@ const TambahMenu = () => {
         Tambah Menu
       </Text>
       <View style={styles.groupinput}>
-        <TextInput label="Nama" style={styles.input} />
-        <TextInput label="Harga" style={styles.input} />
-        <TextInput label="Deskripsi" style={styles.input} />
+        <TextInput
+          label="Nama"
+          style={styles.input}
+          onChangeText={v =>
+            setForm({
+              ...form,
+              nama: v,
+            })
+          }
+          value={form.nama}
+        />
+        <TextInput
+          label="Harga"
+          style={styles.input}
+          onChangeText={v =>
+            setForm({
+              ...form,
+              harga: v,
+            })
+          }
+          keyboardType="numeric"
+          value={form.harga}
+        />
+        <TextInput
+          label="Deskripsi"
+          style={styles.input}
+          onChangeText={v =>
+            setForm({
+              ...form,
+              deskripsi: v,
+            })
+          }
+          value={form.deskripsi}
+        />
         <View style={{borderWidth: 1, padding: wp(2), width: wp(80)}}>
           <Text style={{color: 'grey', marginBottom: wp(2), marginLeft: wp(1)}}>
             Gambar Menu

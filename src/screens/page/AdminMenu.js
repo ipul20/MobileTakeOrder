@@ -1,10 +1,22 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Platform} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import DaftarMenu from './DaftarMenu';
 
 export default function AdminMenu() {
+  const getMenu = async () => {
+    try {
+      const response = await fetch('https://order.portalabsen.com/api/menu');
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getMenu();
+  }, []);
   const Tab = createMaterialTopTabNavigator();
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
   return (
