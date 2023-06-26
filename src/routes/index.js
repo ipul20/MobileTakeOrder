@@ -22,7 +22,7 @@ import TambahMenu from '../screens/page/TambahMenu';
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
   return (
-    <Tab.Navigator screenOptions={tabBarOptions}>
+    <Tab.Navigator screenOptions={tabBarOptions} initialRouteName="Home">
       <Tab.Screen
         name="Riwayat"
         component={Riwayat}

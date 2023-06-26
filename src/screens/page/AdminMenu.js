@@ -6,11 +6,7 @@ import DaftarMenu from './DaftarMenu';
 
 export default function AdminMenu() {
   const [menu, setMenu] = useState({
-    makanan: [
-      {
-        nama: 'ikan',
-      },
-    ],
+    makanan: [],
     minuman: [],
   });
   const getMenu = async () => {
