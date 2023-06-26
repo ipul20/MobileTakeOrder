@@ -21,13 +21,14 @@ export default function DaftarMenu(props) {
       .then(json => {
         console.log('log hapus', json);
         if (json.status == true) {
-          Alert('Hapus Data Berhasil');
+          Alert.alert('Hapus Data Berhasil');
+          navigation.replace('AdminMenu');
         } else {
-          Alert('Hapus Data Gagal');
+          Alert.alert('Hapus Data Gagal');
         }
       })
       .catch(error => {
-        Alert('Hapus Data Gagal');
+        Alert.alert('Hapus Data Gagals');
       });
   }
 
@@ -37,19 +38,7 @@ export default function DaftarMenu(props) {
       {
         text: 'Yes',
         onPress: () => {
-          fetch(API_BASE_URL + '/menu-delete/' + id)
-            .then(response => response.json())
-            .then(json => {
-              console.log('log hapus', json);
-              if (json.status == true) {
-                Alert('Hapus Data Berhasil');
-              } else {
-                Alert('Hapus Data Gagal');
-              }
-            })
-            .catch(error => {
-              Alert('Hapus Data Gagal');
-            });
+          return deleteMenu(id);
         },
       },
       // The "No" button
@@ -127,7 +116,7 @@ export default function DaftarMenu(props) {
                 icon={require('../../assets/icon/edit.png')}
                 iconColor={MD3Colors.error50}
                 size={wp(5)}
-                onPress={() => console.log('Pressed')}
+                onPress={() => Alert('edit')}
               />
               <IconButton
                 mode="contained"
