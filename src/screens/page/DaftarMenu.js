@@ -22,13 +22,15 @@ export default function DaftarMenu(props) {
         console.log('log hapus', json);
         if (json.status == true) {
           Alert.alert('Hapus Data Berhasil');
-          navigation.replace('AdminMenu');
+          props.reloadPage();
         } else {
           Alert.alert('Hapus Data Gagal');
+          props.reloadPage();
         }
       })
       .catch(error => {
         Alert.alert('Hapus Data Gagals');
+        props.reloadPage();
       });
   }
 

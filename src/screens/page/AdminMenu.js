@@ -1,10 +1,11 @@
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import React, {useEffect, useState} from 'react';
-import {View, Text, Platform} from 'react-native';
+import {View, Text, Platform, Alert} from 'react-native';
 import {Appbar} from 'react-native-paper';
 import DaftarMenu from './DaftarMenu';
 
-export default function AdminMenu() {
+export default function AdminMenu({navigation}) {
+  const [reload, setReload] = useState(1);
   const [menu, setMenu] = useState({
     makanan: [],
     minuman: [],
@@ -24,8 +25,14 @@ export default function AdminMenu() {
     }
   };
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getMenu();
+      //Put your Data loading function here instead of my loadData()
+    });
+
     getMenu();
-  }, []);
+    return unsubscribe;
+  }, [reload, navigation]);
   const Tab = createMaterialTopTabNavigator();
   const MORE_ICON = Platform.OS === 'ios' ? 'dots-horizontal' : 'dots-vertical';
   return (
@@ -38,11 +45,23 @@ export default function AdminMenu() {
       <Tab.Navigator>
         <Tab.Screen
           name="Makanan"
-          children={() => <DaftarMenu jenis="Makanan" menu={menu.makanan} />}
+          children={() => (
+            <DaftarMenu
+              jenis="Makanan"
+              menu={menu.makanan}
+              reloadPage={() => setReload(reload + 1)}
+            />
+          )}
         />
         <Tab.Screen
           name="Minuman"
-          children={() => <DaftarMenu jenis="Minuman" menu={menu.minuman} />}
+          children={() => (
+            <DaftarMenu
+              jenis="Minuman"
+              menu={menu.minuman}
+              reloadPage={() => setReload(reload + 1)}
+            />
+          )}
         />
       </Tab.Navigator>
     </>

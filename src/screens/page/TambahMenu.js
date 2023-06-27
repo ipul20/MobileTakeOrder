@@ -75,7 +75,7 @@ export default function TambahMenu({route}) {
       setLoading(false);
 
       if (result.status == true) {
-        navigation.replace('AdminMenu');
+        navigation.goBack();
       }
     } catch (error) {
       // console.log('error upload', error);
