@@ -1,11 +1,11 @@
 import React from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 
-export default function Home() {
+export default function Home({navigation}) {
   return (
     <View style={{flex: 1, backgroundColor: 'red'}}>
       <View style={{height: hp(35)}}>
@@ -25,7 +25,9 @@ export default function Home() {
           justifyContent: 'space-around',
           alignItems: 'center',
         }}>
-        <View style={{alignItems: 'center'}}>
+        <TouchableOpacity
+          style={{alignItems: 'center'}}
+          onPress={() => navigation.navigate('SelectTable')}>
           <View
             style={{
               height: wp(20),
@@ -54,7 +56,7 @@ export default function Home() {
             />
           </View>
           <Text>Reservasi</Text>
-        </View>
+        </TouchableOpacity>
         <View style={{alignItems: 'center'}}>
           <View
             style={{
