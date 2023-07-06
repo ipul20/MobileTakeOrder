@@ -7,7 +7,7 @@ import {
 
 export default function Home({navigation}) {
   return (
-    <View style={{flex: 1, backgroundColor: 'red'}}>
+    <View style={{flex: 1}}>
       <View style={{height: hp(35)}}>
         <Image
           source={require('../../assets/image/header.png')}
@@ -57,7 +57,9 @@ export default function Home({navigation}) {
           </View>
           <Text>Reservasi</Text>
         </TouchableOpacity>
-        <View style={{alignItems: 'center'}}>
+        <TouchableOpacity
+          style={{alignItems: 'center'}}
+          onPress={() => navigation.navigate('SelectMenu')}>
           <View
             style={{
               height: wp(20),
@@ -86,7 +88,7 @@ export default function Home({navigation}) {
             />
           </View>
           <Text>TakeAway</Text>
-        </View>
+        </TouchableOpacity>
         <View style={{alignItems: 'center'}}>
           <View
             style={{
@@ -115,7 +117,7 @@ export default function Home({navigation}) {
               }}
             />
           </View>
-          <Text>DineIn</Text>
+          <Text>Reorder</Text>
         </View>
       </View>
     </View>

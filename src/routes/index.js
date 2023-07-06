@@ -19,6 +19,8 @@ import AdminUser from '../screens/page/AdminUser';
 import AdminMenu from '../screens/page/AdminMenu';
 import TambahMenu from '../screens/page/TambahMenu';
 import SelectTable from '../screens/page/SelectTable';
+import SelectMenu from '../screens/page/SelectMenu';
+import Cart from '../screens/page/Cart';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -115,6 +117,8 @@ export default function RoutesContainer() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="SelectTable" component={SelectTable} />
+        <Stack.Screen name="SelectMenu" component={SelectMenu} />
+        <Stack.Screen name="Cart" component={Cart} />
 
         {/* //admin */}
         <Stack.Screen name="HomeAdmin" component={HomeAdmin} />
