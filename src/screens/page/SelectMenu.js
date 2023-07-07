@@ -115,7 +115,7 @@ export default function SelectMenu({navigation}) {
           {
             name: 'cart',
             badge: `${String(total.item)}`,
-            onPress: () => navigation.navigate('Cart'),
+            onPress: () => navigation.navigate('Cart', {pesan: pesanan}),
             isBadgeLeft: true,
           },
         ]}
@@ -220,6 +220,8 @@ export default function SelectMenu({navigation}) {
                       id: v.id,
                       banyak: 1,
                       harga: v.harga,
+                      nama: v.nama,
+                      gambar: v.gambar,
                     },
                   ]);
                 }}>
@@ -369,7 +371,7 @@ export default function SelectMenu({navigation}) {
             backgroundColor: COLOR.PRIMARY,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate('Cart')}>
+          onPress={() => navigation.navigate('Cart', {pesan: pesanan})}>
           <Text style={{color: 'white', fontWeight: '700'}}>
             {total.item} Item
           </Text>
