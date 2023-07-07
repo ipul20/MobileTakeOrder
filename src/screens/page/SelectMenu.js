@@ -13,33 +13,33 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import ActionBar from 'react-native-action-bar';
-import {black} from 'react-native-paper/lib/typescript/src/styles/themes/v2/colors';
 import {BASE_URL} from '../../../env';
-
+import {COLOR, COLOR_GRAY} from '../../styles';
 export default function SelectMenu({navigation}) {
-  const [pesanan, setPesanan] = useState([{id: 1, banyak: 2}]);
+  const [pesanan, setPesanan] = useState([]);
   const [cart, setCart] = useState([1, 2, 3, 4]);
+
+  //cari order
   const FindOrder = id =>
     pesanan.find(obj => {
       return obj.id === id;
     });
-  const [total, setTotal] = useState({
-    name: 'cart',
-    badge: '1',
-    onPress: () => console.log('Right Phone !'),
-    isBadgeLeft: true,
-  });
+  const [total, setTotal] = useState({item: 0, harga: 0});
+
+  //sum total item dan harga
   const sumTotal = () => {
-    let sum = pesanan.reduce(function (total, current) {
-      (total = total + current.banyak), 0;
-    }, 0);
-    setTotal({
-      name: 'cart',
-      badge: String(sum),
-      onPress: () => console.log('Right Phone !'),
-      isBadgeLeft: true,
-    });
+    const sum = pesanan.reduce(
+      (total, current) => (total = total + current.banyak),
+      0,
+    );
+    const harga = pesanan.reduce(
+      (total, current) => (total = total + current.harga * current.banyak),
+      0,
+    );
+    setTotal({item: sum, harga: harga});
   };
+
+  //func decrement pesanan
   const decrement = id => {
     let check = FindOrder(id).banyak;
     if (check == 1) {
@@ -59,8 +59,10 @@ export default function SelectMenu({navigation}) {
         }),
       );
     }
+    console.log(pesanan);
   };
 
+  //func increment pesanan
   const increment = id => {
     setPesanan(current =>
       current.map(obj => {
@@ -71,58 +73,86 @@ export default function SelectMenu({navigation}) {
         return obj;
       }),
     );
+    console.log(pesanan);
   };
 
-  const [menu, setMenu] = useState([
-    {
-      id: 1,
-      nama: 'Mie Bakso',
-      harga: 5000,
-    },
-    {
-      id: 2,
-      nama: 'Mie Ayam',
-      harga: 15000,
-    },
-    {
-      id: 3,
-      nama: 'Bakso Urat',
-      harga: 10000,
-    },
-  ]);
+  //usestate menu
+  const [menu, setMenu] = useState({
+    makan: [],
+    minuman: [],
+  });
+
+  const getMenu = async () => {
+    try {
+      const response = await fetch('https://order.portalabsen.com/api/menu');
+      const json = await response.json();
+      console.log(json.data);
+      setMenu({
+        makanan: json.data.makanan,
+        minuman: json.data.minuman,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    getMenu();
+  }, [navigation]);
 
   //hitung jumlah item jika pesanan berubah
   useEffect(() => {
     sumTotal();
   }, [pesanan]);
+
   return (
     <View>
       <ActionBar
         containerStyle={styles.bar}
         title={'Pilih Menu'}
         leftIconName={'back'}
-        onLeftPress={() => console.log('Left!')}
-        rightIcons={[total]}
+        onLeftPress={() => navigation.goBack()}
+        rightIcons={[
+          {
+            name: 'cart',
+            badge: `${String(total.item)}`,
+            onPress: () => console.log('Right Phone !'),
+            isBadgeLeft: true,
+          },
+        ]}
       />
       <ScrollView
         contentContainerStyle={{
           flexDirection: 'row',
           flexWrap: 'wrap',
           justifyContent: 'space-between',
-          paddingBottom: wp(15),
+          paddingBottom: total.item ? hp(20) : hp(7),
         }}>
-        {menu.map(v => (
+        <View style={{width: wp(100)}}>
+          <Text style={{fontSize: wp(5), fontWeight: '600', margin: wp(2)}}>
+            Makanan
+          </Text>
+        </View>
+        {menu.makanan?.map(v => (
           <View
             key={v.id}
             style={{
               width: wp(45),
               margin: wp(2),
-              backgroundColor: 'red',
+              backgroundColor: COLOR_GRAY.LIGHTEST,
               paddingBottom: wp(2),
               paddingTop: wp(2),
               borderRadius: wp(1),
               alignItems: 'center',
               flexDirection: 'column',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+
+              elevation: 3,
             }}>
             <View
               style={{
@@ -130,7 +160,7 @@ export default function SelectMenu({navigation}) {
                 height: wp(40),
               }}>
               <Image
-                source={require('../../assets/image/bakso.jpeg')}
+                source={{uri: `${BASE_URL}/gambar/${v.gambar}`}}
                 style={{
                   width: '100%',
                   height: '100%',
@@ -141,14 +171,13 @@ export default function SelectMenu({navigation}) {
             </View>
             <View
               style={{
-                backgroundColor: 'yellow',
                 alignSelf: 'flex-start',
                 marginLeft: wp(2),
                 marginBottom: wp(2),
               }}>
               <Text style={{fontSize: wp(5), fontWeight: '700'}}>{v.nama}</Text>
               <Text style={{fontSize: wp(3.5), fontWeight: '500'}}>
-                Rp.5000
+                Rp.{v.harga.toLocaleString()}
               </Text>
             </View>
             {FindOrder(v.id) ? (
@@ -156,7 +185,7 @@ export default function SelectMenu({navigation}) {
                 <IconButton
                   mode="contained"
                   icon={require('../../assets/icon/mines.png')}
-                  size={15}
+                  size={wp(3.5)}
                   onPress={() => decrement(v.id)}
                 />
 
@@ -166,16 +195,17 @@ export default function SelectMenu({navigation}) {
                 <IconButton
                   mode="contained"
                   icon={require('../../assets/icon/plus.png')}
-                  size={15}
+                  size={wp(3.5)}
                   onPress={() => increment(v.id)}
                 />
               </View>
             ) : (
               <Button
-                mode="contained"
+                mode="outlined"
+                textColor={COLOR.PRIMARY}
                 style={{
                   width: '90%',
-                  backgroundColor: 'green',
+                  borderColor: COLOR.PRIMARY,
                 }}
                 onPress={() => {
                   setPesanan([
@@ -183,6 +213,102 @@ export default function SelectMenu({navigation}) {
                     {
                       id: v.id,
                       banyak: 1,
+                      harga: v.harga,
+                    },
+                  ]);
+                }}>
+                Tambah
+              </Button>
+            )}
+          </View>
+        ))}
+        <View style={{width: wp(100)}}>
+          <Text style={{fontSize: wp(5), fontWeight: '600', margin: wp(2)}}>
+            Minuman
+          </Text>
+        </View>
+        {menu.minuman?.map(v => (
+          <View
+            key={v.id}
+            style={{
+              width: wp(45),
+              margin: wp(2),
+              backgroundColor: COLOR_GRAY.LIGHTEST,
+              paddingBottom: wp(2),
+              paddingTop: wp(2),
+              borderRadius: wp(1),
+              alignItems: 'center',
+              flexDirection: 'column',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 1,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+
+              elevation: 3,
+            }}>
+            <View
+              style={{
+                width: wp(40),
+                height: wp(40),
+              }}>
+              <Image
+                source={{uri: `${BASE_URL}/gambar/${v.gambar}`}}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  marginBottom: wp(2),
+                  borderRadius: wp(1),
+                }}
+              />
+            </View>
+            <View
+              style={{
+                alignSelf: 'flex-start',
+                marginLeft: wp(2),
+                marginBottom: wp(2),
+              }}>
+              <Text style={{fontSize: wp(5), fontWeight: '700'}}>{v.nama}</Text>
+              <Text style={{fontSize: wp(3.5), fontWeight: '500'}}>
+                Rp.{v.harga.toLocaleString()}
+              </Text>
+            </View>
+            {FindOrder(v.id) ? (
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <IconButton
+                  mode="contained"
+                  icon={require('../../assets/icon/mines.png')}
+                  size={wp(3.5)}
+                  onPress={() => decrement(v.id)}
+                />
+
+                <Text style={{fontSize: wp(4), marginHorizontal: wp(2)}}>
+                  {FindOrder(v.id).banyak}
+                </Text>
+                <IconButton
+                  mode="contained"
+                  icon={require('../../assets/icon/plus.png')}
+                  size={wp(3.5)}
+                  onPress={() => increment(v.id)}
+                />
+              </View>
+            ) : (
+              <Button
+                mode="outlined"
+                textColor={COLOR.PRIMARY}
+                style={{
+                  width: '90%',
+                  borderColor: COLOR.PRIMARY,
+                }}
+                onPress={() => {
+                  setPesanan([
+                    ...pesanan,
+                    {
+                      id: v.id,
+                      banyak: 1,
+                      harga: v.harga,
                     },
                   ]);
                 }}>
@@ -192,13 +318,54 @@ export default function SelectMenu({navigation}) {
           </View>
         ))}
       </ScrollView>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          height: hp(15),
+          width: wp(100),
+          backgroundColor: 'blue',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: wp(10),
+          display: `${total.item ? 'flex' : 'none'}`,
+        }}>
+        <TouchableOpacity
+          style={{
+            height: wp(15),
+            width: wp(80),
+            backgroundColor: 'white',
+            borderRadius: wp(3),
+            paddingHorizontal: wp(4),
+            paddingVertical: wp(2),
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <Text>{total.item} Item</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text>{total.harga.toLocaleString()}</Text>
+            <IconButton
+              icon={require('../../assets/icon/cart.png')}
+              size={wp(7)}
+              onPress={() => increment(v.id)}
+            />
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   bar: {
     backgroundColor: 'black',
-    height: hp(6),
+    height: hp(7),
     paddingHorizontal: wp(5),
   },
 });

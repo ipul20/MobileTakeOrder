@@ -21,6 +21,7 @@ import TambahMenu from '../screens/page/TambahMenu';
 import SelectTable from '../screens/page/SelectTable';
 import SelectMenu from '../screens/page/SelectMenu';
 import Cart from '../screens/page/Cart';
+import EditMenu from '../screens/page/EditMenu';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -125,6 +126,7 @@ export default function RoutesContainer() {
         <Stack.Screen name="AdminUser" component={AdminUser} />
         <Stack.Screen name="AdminMenu" component={AdminMenu} />
         <Stack.Screen name="TambahMenu" component={TambahMenu} />
+        <Stack.Screen name="EditMenu" component={EditMenu} />
       </Stack.Navigator>
     </NavigationContainer>
   );

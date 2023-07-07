@@ -16,7 +16,6 @@ export default function AdminMenu({navigation}) {
       const json = await response.json();
       console.log(json.data.makanan);
       setMenu({
-        ...menu,
         makanan: json.data.makanan,
         minuman: json.data.minuman,
       });
