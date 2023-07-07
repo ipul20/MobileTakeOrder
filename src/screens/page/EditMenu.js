@@ -18,13 +18,15 @@ import {COLOR} from '../../styles';
 import {launchImageLibrary} from 'react-native-image-picker';
 
 export default function EditMenu({route}) {
-  const {jenis} = route.params;
+  const {nama, harga, deskripsi, id} = route.params;
+  const jenis = '';
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
-    nama: '',
-    harga: '',
-    deskripsi: '',
+    id: id,
+    nama: nama,
+    harga: harga,
+    deskripsi: deskripsi,
     gambar: '',
     nama_gambar: '',
   });
@@ -33,14 +35,9 @@ export default function EditMenu({route}) {
   };
   const PilihGambar = () => {
     launchImageLibrary(options, response => {
-      console.log('Response = ', response);
-
       if (response.didCancel) {
-        console.log('User cancelled image picker');
       } else if (response.error) {
-        console.log('Image Picker Error: ', response.error);
       } else {
-        console.log('Response = ', response);
         setForm({
           ...form,
           gambar: response.assets[0].uri,
@@ -53,17 +50,19 @@ export default function EditMenu({route}) {
   const Submit = async () => {
     setLoading(true);
     const data = new FormData();
-    data.append('gambar', {
-      uri: form.gambar,
-      name: form.nama_gambar,
-      type: form.type_gambar,
-    });
+    if (form.gambar !== '') {
+      data.append('gambar', {
+        uri: form.gambar,
+        name: form.nama_gambar,
+        type: form.type_gambar,
+      });
+    }
+    data.append('id', form.id);
     data.append('nama', form.nama);
-    data.append('kategori', jenis);
     data.append('harga', form.harga);
     data.append('deskripsi', form.deskripsi);
     try {
-      let res = await fetch(API_BASE_URL + '/menu-store', {
+      let res = await fetch(API_BASE_URL + '/menu-edit', {
         method: 'post',
         body: data,
         headers: {
@@ -73,12 +72,12 @@ export default function EditMenu({route}) {
       });
       let result = await res.json();
       setLoading(false);
-
+      console.log('respon', result);
       if (result.status == true) {
+        alert('Edit Data Menu Berhasil');
         navigation.goBack();
       }
     } catch (error) {
-      // console.log('error upload', error);
       alert('Gagal Upload Gambar :', error);
       setLoading(false);
     }
@@ -94,7 +93,7 @@ export default function EditMenu({route}) {
           marginBottom: hp(2),
           alignSelf: 'center',
         }}>
-        Tambah Menu
+        Edit Menu
       </Text>
       <View style={styles.groupinput}>
         <TextInput
@@ -144,7 +143,7 @@ export default function EditMenu({route}) {
             Pilih Gambar
           </Button>
           <Text style={{color: 'grey', marginBottom: wp(2), marginLeft: wp(1)}}>
-            No File Chosen
+            *kosongkan bila tidak ingin diganti
           </Text>
         </View>
         <Button
@@ -154,7 +153,7 @@ export default function EditMenu({route}) {
           style={styles.buttonMasuk}
           compact={false}
           onPress={() => Submit()}>
-          <Text style={{color: '#F4F9F9'}}>Submit</Text>
+          <Text style={{color: '#F4F9F9'}}>Update</Text>
         </Button>
       </View>
     </View>

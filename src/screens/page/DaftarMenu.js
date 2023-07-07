@@ -118,7 +118,7 @@ export default function DaftarMenu(props) {
                 icon={require('../../assets/icon/edit.png')}
                 iconColor={MD3Colors.error50}
                 size={wp(5)}
-                onPress={() => Alert('edit')}
+                onPress={() => navigation.navigate('EditMenu', v)}
               />
               <IconButton
                 mode="contained"
