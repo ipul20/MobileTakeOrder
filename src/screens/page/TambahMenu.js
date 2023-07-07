@@ -75,6 +75,8 @@ export default function TambahMenu({route}) {
       setLoading(false);
 
       if (result.status == true) {
+        alert('Tambah Data Menu Berhasil');
+
         navigation.goBack();
       }
     } catch (error) {
