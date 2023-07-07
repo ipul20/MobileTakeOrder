@@ -115,7 +115,7 @@ export default function SelectMenu({navigation}) {
           {
             name: 'cart',
             badge: `${String(total.item)}`,
-            onPress: () => console.log('Right Phone !'),
+            onPress: () => navigation.navigate('Cart'),
             isBadgeLeft: true,
           },
         ]}
@@ -137,6 +137,7 @@ export default function SelectMenu({navigation}) {
             key={v.id}
             style={{
               width: wp(45),
+
               margin: wp(2),
               backgroundColor: COLOR_GRAY.LIGHTEST,
               paddingBottom: wp(2),
@@ -151,7 +152,6 @@ export default function SelectMenu({navigation}) {
               },
               shadowOpacity: 0.22,
               shadowRadius: 2.22,
-
               elevation: 3,
             }}>
             <View
@@ -174,14 +174,20 @@ export default function SelectMenu({navigation}) {
                 alignSelf: 'flex-start',
                 marginLeft: wp(2),
                 marginBottom: wp(2),
+                height: wp(18),
               }}>
               <Text style={{fontSize: wp(5), fontWeight: '700'}}>{v.nama}</Text>
               <Text style={{fontSize: wp(3.5), fontWeight: '500'}}>
                 Rp.{v.harga.toLocaleString()}
               </Text>
             </View>
+
             {FindOrder(v.id) ? (
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
                 <IconButton
                   mode="contained"
                   icon={require('../../assets/icon/mines.png')}
@@ -325,36 +331,60 @@ export default function SelectMenu({navigation}) {
           left: 0,
           height: hp(15),
           width: wp(100),
-          backgroundColor: 'blue',
+          backgroundColor: 'white',
           alignItems: 'center',
           justifyContent: 'center',
           marginBottom: wp(10),
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: -3,
+          },
+          shadowOpacity: 0.22,
+          shadowRadius: 2.22,
+          elevation: 3,
+          borderTopWidth: 1,
           display: `${total.item ? 'flex' : 'none'}`,
         }}>
         <TouchableOpacity
           style={{
             height: wp(15),
             width: wp(80),
-            backgroundColor: 'white',
+            // backgroundColor: COLOR_GRAY.LIGHTEST,
             borderRadius: wp(3),
             paddingHorizontal: wp(4),
             paddingVertical: wp(2),
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-          }}>
-          <Text>{total.item} Item</Text>
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 4,
+            borderColor: COLOR.PRIMARY,
+            backgroundColor: COLOR.PRIMARY,
+            borderWidth: 1,
+          }}
+          onPress={() => navigation.navigate('Cart')}>
+          <Text style={{color: 'white', fontWeight: '700'}}>
+            {total.item} Item
+          </Text>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Text>{total.harga.toLocaleString()}</Text>
+            <Text style={{color: 'white', fontWeight: '900'}}>
+              {total.harga.toLocaleString()}
+            </Text>
             <IconButton
               icon={require('../../assets/icon/cart.png')}
               size={wp(7)}
-              onPress={() => increment(v.id)}
             />
           </View>
         </TouchableOpacity>
