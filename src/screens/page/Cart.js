@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {IconButton, MD3Colors} from 'react-native-paper';
@@ -7,12 +7,25 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {BASE_URL} from '../../../env';
-import {COLOR} from '../../styles';
+import {COLOR, COLOR_GRAY} from '../../styles';
 export default function Cart({navigation, route}) {
   const {pesan} = route.params;
   console.log(pesan);
   const [pesanan, setPesanan] = useState(pesan ?? []);
+  const [total, setTotal] = useState({item: 0, harga: 0});
 
+  //sum total item dan harga
+  const sumTotal = () => {
+    const sum = pesanan.reduce(
+      (total, current) => (total = total + current.banyak),
+      0,
+    );
+    const harga = pesanan.reduce(
+      (total, current) => (total = total + current.harga * current.banyak),
+      0,
+    );
+    setTotal({item: sum, harga: harga});
+  };
   //cek pesanan
   const FindOrder = id =>
     pesanan.find(obj => {
@@ -38,7 +51,6 @@ export default function Cart({navigation, route}) {
         }),
       );
     }
-    console.log(pesanan);
   };
 
   //func increment pesanan
@@ -54,6 +66,10 @@ export default function Cart({navigation, route}) {
     );
     console.log(pesanan);
   };
+
+  useEffect(() => {
+    sumTotal();
+  }, [pesanan]);
   return (
     <View>
       <View
@@ -96,38 +112,60 @@ export default function Cart({navigation, route}) {
           </Text>
         </View>
       </View>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          minHeight: hp(100),
+          paddingBottom: hp(25),
+        }}>
         {pesanan?.map(v => (
           <>
             <View
               style={{
                 flexDirection: 'column',
-                height: hp(10),
-                width: wp(95),
-                borderRadius: wp(2),
-                padding: wp(2),
+                height: hp(20),
+                paddingVertical: wp(2),
+                paddingHorizontal: wp(3),
+                borderBottomColor: COLOR_GRAY.LIGHT,
+                borderBottomWidth: 1,
                 marginBottom: wp(1),
-                borderWidth: 1,
               }}>
               <View style={{flexDirection: 'row'}}>
-                <Text>Nama</Text>
-                <Text>Rp.{parseInt(v.harga * v.banyak).toLocaleString()}</Text>
+                <View
+                  style={{
+                    width: wp(65),
+                    marginRight: wp(2),
+                  }}>
+                  <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
+                    {v.nama}
+                  </Text>
+                </View>
+                <View>
+                  <Text style={{fontSize: wp(4), fontWeight: 'bold'}}>
+                    Rp.{parseInt(v.harga * v.banyak).toLocaleString()}
+                  </Text>
+                </View>
               </View>
               <View
                 style={{
                   width: ' 100%',
                   flexDirection: 'row',
-                  backgroundColor: 'red',
                   justifyContent: 'space-between',
                 }}>
-                <Image
-                  source={{uri: `${BASE_URL}/gambar/${v.gambar}`}}
+                <View
                   style={{
-                    width: '30%',
-                    borderRadius: wp(1),
-                  }}
-                />
-                <View style={{flexDirection: 'row'}}>
+                    marginTop: wp(2),
+                    width: wp(30),
+                  }}>
+                  <Image
+                    source={{uri: `${BASE_URL}/gambar/${v.gambar}`}}
+                    style={{
+                      width: wp(25),
+                      height: wp(20),
+                      borderRadius: wp(1),
+                    }}
+                  />
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <View
                     style={{
                       flexDirection: 'row',
@@ -163,11 +201,41 @@ export default function Cart({navigation, route}) {
             </View>
           </>
         ))}
+        <View
+          style={{
+            paddingHorizontal: wp(5),
+            paddingVertical: wp(7),
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>Harga</Text>
+            <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>
+              Rp {parseInt(total.harga).toLocaleString()}
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>
+              Biaya Layanan & lainnya
+            </Text>
+            <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>Rp. 0</Text>
+          </View>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>
+              Total Pembayaran
+            </Text>
+            <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>
+              Rp {parseInt(total.harga).toLocaleString()}
+            </Text>
+          </View>
+        </View>
       </ScrollView>
-      {/* <View
+      <View
         style={{
           position: 'absolute',
-          bottom: 0,
+          bottom: hp(4),
           left: 0,
           height: hp(15),
           width: wp(100),
@@ -188,14 +256,14 @@ export default function Cart({navigation, route}) {
         <TouchableOpacity
           style={{
             height: wp(15),
-            width: wp(80),
+            width: wp(90),
             // backgroundColor: COLOR_GRAY.LIGHTEST,
             borderRadius: wp(3),
             paddingHorizontal: wp(4),
             paddingVertical: wp(2),
             flexDirection: 'row',
-            justifyContent: 'space-between',
             alignItems: 'center',
+            justifyContent: 'center',
             shadowColor: '#000',
             shadowOffset: {
               width: 0,
@@ -208,22 +276,19 @@ export default function Cart({navigation, route}) {
             backgroundColor: COLOR.PRIMARY,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate('Cart', {pesan: pesanan})}>
-          <Text style={{color: 'white', fontWeight: '700'}}>Item</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Text style={{color: 'white', fontWeight: '900'}}></Text>
-            <IconButton
-              icon={require('../../assets/icon/cart.png')}
-              size={wp(7)}
-            />
+          onPress={() => console.log('checkout')}>
+          <View style={{alignSelf: 'center'}}>
+            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
+              Checkout
+            </Text>
+          </View>
+          <View style={{position: 'absolute', right: wp(3)}}>
+            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(3)}}>
+              Rp. {parseInt(total.harga).toLocaleString()}
+            </Text>
           </View>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 }

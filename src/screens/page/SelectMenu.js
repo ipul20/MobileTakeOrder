@@ -178,7 +178,7 @@ export default function SelectMenu({navigation}) {
               }}>
               <Text style={{fontSize: wp(5), fontWeight: '700'}}>{v.nama}</Text>
               <Text style={{fontSize: wp(3.5), fontWeight: '500'}}>
-                Rp.{v.harga.toLocaleString()}
+                Rp.{parseInt(v.harga).toLocaleString()}
               </Text>
             </View>
 
@@ -280,7 +280,7 @@ export default function SelectMenu({navigation}) {
               }}>
               <Text style={{fontSize: wp(5), fontWeight: '700'}}>{v.nama}</Text>
               <Text style={{fontSize: wp(3.5), fontWeight: '500'}}>
-                Rp.{v.harga.toLocaleString()}
+                Rp.{parseInt(v.harga).toLocaleString()}
               </Text>
             </View>
             {FindOrder(v.id) ? (
@@ -351,7 +351,7 @@ export default function SelectMenu({navigation}) {
         <TouchableOpacity
           style={{
             height: wp(15),
-            width: wp(80),
+            width: wp(90),
             // backgroundColor: COLOR_GRAY.LIGHTEST,
             borderRadius: wp(3),
             paddingHorizontal: wp(4),
@@ -382,7 +382,7 @@ export default function SelectMenu({navigation}) {
               alignItems: 'center',
             }}>
             <Text style={{color: 'white', fontWeight: '900'}}>
-              {total.harga.toLocaleString()}
+              Rp. {total.harga.toLocaleString()}
             </Text>
             <IconButton
               icon={require('../../assets/icon/cart.png')}
