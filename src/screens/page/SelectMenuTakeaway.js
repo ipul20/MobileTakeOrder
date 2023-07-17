@@ -15,7 +15,7 @@ import {
 import ActionBar from 'react-native-action-bar';
 import {BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
-export default function SelectMenu({navigation}) {
+export default function SelectMenuTakeaway({navigation}) {
   const [pesanan, setPesanan] = useState([]);
   const [cart, setCart] = useState([1, 2, 3, 4]);
 

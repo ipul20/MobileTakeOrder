@@ -59,7 +59,7 @@ export default function Home({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity
           style={{alignItems: 'center'}}
-          onPress={() => navigation.navigate('SelectMenu')}>
+          onPress={() => navigation.navigate('SelectMenuTakeaway')}>
           <View
             style={{
               height: wp(20),

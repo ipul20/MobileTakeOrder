@@ -29,7 +29,11 @@ export default function HomeAdmin({navigation}) {
         onPress={() => navigation.navigate('AdminMenu')}>
         <Text>Data Menu</Text>
       </Button>
-      <Button mode="contained" compact={false} style={styles.button}>
+      <Button
+        mode="contained"
+        compact={false}
+        style={styles.button}
+        onPress={() => navigation.navigate('Pesanan')}>
         <Text>Data Pesanan</Text>
       </Button>
     </View>

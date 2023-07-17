@@ -19,9 +19,12 @@ import AdminUser from '../screens/page/AdminUser';
 import AdminMenu from '../screens/page/AdminMenu';
 import TambahMenu from '../screens/page/TambahMenu';
 import SelectTable from '../screens/page/SelectTable';
+import SelectMenuTakeaway from '../screens/page/SelectMenuTakeaway';
 import SelectMenu from '../screens/page/SelectMenu';
 import Cart from '../screens/page/Cart';
 import EditMenu from '../screens/page/EditMenu';
+import Pesanan from '../screens/page/Pesanan';
+import Pembayaran from '../screens/page/Pembayaran';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -118,7 +121,10 @@ export default function RoutesContainer() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="SelectTable" component={SelectTable} />
-        <Stack.Screen name="SelectMenu" component={SelectMenu} />
+        <Stack.Screen
+          name="SelectMenuTakeaway"
+          component={SelectMenuTakeaway}
+        />
         <Stack.Screen name="Cart" component={Cart} />
 
         {/* //admin */}
@@ -127,6 +133,9 @@ export default function RoutesContainer() {
         <Stack.Screen name="AdminMenu" component={AdminMenu} />
         <Stack.Screen name="TambahMenu" component={TambahMenu} />
         <Stack.Screen name="EditMenu" component={EditMenu} />
+        <Stack.Screen name="Pesanan" component={Pesanan} />
+        <Stack.Screen name="SelectMenu" component={SelectMenu} />
+        <Stack.Screen name="Pembayaran" component={Pembayaran} />
       </Stack.Navigator>
     </NavigationContainer>
   );

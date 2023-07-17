@@ -9,11 +9,11 @@ import {
 } from 'react-native-responsive-screen';
 import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
-export default function Cart({navigation, route}) {
-  const {pesan} = route.params;
-  console.log(pesan);
+export default function Pembayaran({navigation}) {
+  // const {pesan} = route.params;
+  // console.log(pesan);
   const [loading, setLoading] = useState(false);
-  const [pesanan, setPesanan] = useState(pesan ?? []);
+  const [pesanan, setPesanan] = useState([]);
   const [total, setTotal] = useState({item: 0, harga: 0});
   const [metode, setMetode] = useState();
 
@@ -294,19 +294,38 @@ export default function Cart({navigation, route}) {
           elevation: 3,
           borderTopWidth: 1,
         }}>
-        <View style={{borderWidth: 1, marginVertical: wp(2)}}>
-          <Picker
-            selectedValue={metode}
-            style={{
-              height: 50,
-              width: wp(80),
-            }}
-            onValueChange={(itemValue, itemIndex) => setMetode(itemValue)}>
-            <Picker.Item label="Pilih Jenis Pembayaran" value="" />
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
-        </View>
+        <TouchableOpacity
+          disabled={loading}
+          style={{
+            height: wp(15),
+            width: wp(90),
+            marginBottom: wp(2),
+            // backgroundColor: COLOR_GRAY.LIGHTEST,
+            borderRadius: wp(3),
+            paddingHorizontal: wp(4),
+            paddingVertical: wp(2),
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 4,
+            borderColor: COLOR.PRIMARY,
+            backgroundColor: COLOR.PRIMARY,
+            borderWidth: 1,
+          }}
+          onPress={() => checkout()}>
+          <View style={{alignSelf: 'center'}}>
+            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
+              Tambah Menu
+            </Text>
+          </View>
+        </TouchableOpacity>
         <TouchableOpacity
           disabled={loading}
           style={{
@@ -334,12 +353,7 @@ export default function Cart({navigation, route}) {
           onPress={() => checkout()}>
           <View style={{alignSelf: 'center'}}>
             <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
-              Checkout
-            </Text>
-          </View>
-          <View style={{position: 'absolute', right: wp(3)}}>
-            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(3)}}>
-              Rp. {parseInt(total.harga).toLocaleString()}
+              Bayar
             </Text>
           </View>
         </TouchableOpacity>
