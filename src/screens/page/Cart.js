@@ -156,7 +156,7 @@ export default function Cart({navigation, route}) {
       <ScrollView
         contentContainerStyle={{
           minHeight: hp(100),
-          paddingBottom: hp(35),
+          paddingBottom: hp(25),
         }}>
         {pesanan?.map(v => (
           <>
@@ -278,7 +278,7 @@ export default function Cart({navigation, route}) {
           position: 'absolute',
           bottom: hp(4),
           left: 0,
-          height: hp(20),
+          height: hp(15),
           width: wp(100),
           backgroundColor: 'white',
           alignItems: 'center',
@@ -294,19 +294,6 @@ export default function Cart({navigation, route}) {
           elevation: 3,
           borderTopWidth: 1,
         }}>
-        <View style={{borderWidth: 1, marginVertical: wp(2)}}>
-          <Picker
-            selectedValue={metode}
-            style={{
-              height: 50,
-              width: wp(80),
-            }}
-            onValueChange={(itemValue, itemIndex) => setMetode(itemValue)}>
-            <Picker.Item label="Pilih Jenis Pembayaran" value="" />
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker>
-        </View>
         <TouchableOpacity
           disabled={loading}
           style={{
