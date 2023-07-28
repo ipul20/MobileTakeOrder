@@ -9,13 +9,22 @@ import {API_BASE_URL} from '../../../../env';
 export default function Dinein({navigation}) {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [modal, setModal] = useState({pesan: false, dinein: false});
   const [pesan, setPesan] = useState({user_id: 0, meja: 0});
-  const hideModal = () => {
-    setVisible(false);
+  const hideModal = jenis => {
+    if (jenis == 'dinein') {
+      setModal({...modal, dinein: false});
+    } else if (jenis == 'pesan') {
+      setModal({...modal, pesan: false});
+    }
   };
-  const showModal = meja => {
-    setPesan({...pesan, meja: meja});
-    setVisible(true);
+  const showModal = (jenis, meja = null) => {
+    if (jenis == 'pesan') {
+      setPesan({...pesan, meja: meja});
+      setModal({...modal, pesan: true});
+    } else if (jenis == 'dinein') {
+      setModal({...modal, dinein: true});
+    }
   };
   const [table, setTable] = useState([
     {
@@ -135,9 +144,9 @@ export default function Dinein({navigation}) {
             }}
             onPress={() => {
               if (v.status && v.jenis != 'reservasi') {
-                navigation.navigate('Pembayaran');
+                showModal('dinein');
               } else if (!v.status) {
-                showModal(v.nomor);
+                showModal('pesan', v.nomor);
               }
             }}>
             <Text>{v.nomor}</Text>
@@ -163,8 +172,8 @@ export default function Dinein({navigation}) {
         <Button></Button>
       </View>
       <Modal
-        visible={visible}
-        onDismiss={() => setVisible(false)}
+        visible={modal.pesan}
+        onDismiss={() => hideModal('pesan')}
         contentContainerStyle={{
           backgroundColor: 'white',
           alignSelf: 'center',
@@ -175,6 +184,33 @@ export default function Dinein({navigation}) {
         <Text style={{fontSize: wp(4), fontWeight: 'bold'}}>
           Input Pesanan DineIn Meja {pesan.meja}
         </Text>
+        <View style={{flexDirection: 'row', marginTop: wp(5)}}>
+          <Button
+            mode="outlined"
+            onPress={() => console.log('pesan')}
+            style={{marginRight: wp(2)}}>
+            Member
+          </Button>
+          <Button
+            mode="outlined"
+            onPress={async () => {
+              await setPesan({...pesan, user_id: 0});
+              submitPesanan();
+            }}>
+            Non Member
+          </Button>
+        </View>
+      </Modal>
+      <Modal
+        visible={modal.dinein}
+        onDismiss={() => hideModal('dinein')}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          alignSelf: 'center',
+          padding: 20,
+          width: wp(80),
+          alignItems: 'center',
+        }}>
         <View style={{flexDirection: 'row', marginTop: wp(5)}}>
           <Button
             mode="outlined"
