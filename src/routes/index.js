@@ -26,6 +26,7 @@ import EditMenu from '../screens/page/EditMenu';
 import Pesanan from '../screens/page/Pesanan';
 import Pembayaran from '../screens/page/Pembayaran';
 import Profile from '../screens/main/Profile';
+import DetailTakeaway from '../screens/page/DetailTakeaway';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -137,6 +138,7 @@ export default function RoutesContainer() {
         <Stack.Screen name="Pesanan" component={Pesanan} />
         <Stack.Screen name="SelectMenu" component={SelectMenu} />
         <Stack.Screen name="Pembayaran" component={Pembayaran} />
+        <Stack.Screen name="DetailTakeaway" component={DetailTakeaway} />
       </Stack.Navigator>
     </NavigationContainer>
   );
