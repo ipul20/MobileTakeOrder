@@ -25,6 +25,7 @@ import Cart from '../screens/page/Cart';
 import EditMenu from '../screens/page/EditMenu';
 import Pesanan from '../screens/page/Pesanan';
 import Pembayaran from '../screens/page/Pembayaran';
+import Profile from '../screens/main/Profile';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -82,7 +83,7 @@ function MainScreen() {
       />
       <Tab.Screen
         name="Profile"
-        component={Home}
+        component={Profile}
         options={{
           header: () => null,
           tabBarActiveTintColor: COLOR.PRIMARY,

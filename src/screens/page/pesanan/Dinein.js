@@ -129,7 +129,7 @@ export default function Dinein({navigation}) {
           flexWrap: 'wrap',
           // justifyContent: 'space-between',
           alignContent: 'space-between',
-          height: hp(80),
+          height: hp(78),
         }}>
         {table.map(v => (
           <TouchableOpacity
@@ -174,10 +174,42 @@ export default function Dinein({navigation}) {
       </View>
       <View
         style={{
-          backgroundColor: 'yellow',
-          flex: 1,
+          height: wp(7),
+          marginVertical: wp(1),
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
         }}>
-        <Button></Button>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              width: wp(5),
+              height: wp(5),
+              backgroundColor: 'red',
+              margin: wp(2),
+            }}></View>
+          <Text>Reservasi</Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              width: wp(5),
+              height: wp(5),
+              margin: wp(2),
+              backgroundColor: 'green',
+            }}></View>
+          <Text>DineIn</Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              width: wp(5),
+              height: wp(5),
+              borderWidth: 1,
+              margin: wp(2),
+            }}></View>
+          <Text>tersedia</Text>
+        </View>
       </View>
       <Modal
         visible={modal.pesan}
