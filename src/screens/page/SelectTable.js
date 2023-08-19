@@ -72,12 +72,13 @@ export default function SelectTable({navigation}) {
       console.log('respon', result);
       if (result.status == true) {
         alert('Tambah Pesanan Berhasil');
-        navigation.replace('MainScreen:{#Riwayat}');
+        navigation.replace('MainScreen', {screen: 'Riwayat', initial: false});
+
         // navigation.push('MainScreen');
         // navigation.goBack();
       } else {
         alert(result.message);
-        navigation.replace('MainScreen', {screen: 'Riwayat'});
+        navigation.replace('MainScreen', {screen: 'Riwayat', initial: false});
       }
     } catch (error) {
       console.log('error upload', error);
