@@ -125,6 +125,7 @@ export default function SelectTable({navigation}) {
               justifyContent: 'center',
               alignItems: 'center',
               margin: hp(2),
+              alignSelf: 'flex-end',
             }}>
             <Text>{v.nomor}</Text>
           </TouchableOpacity>
@@ -133,7 +134,7 @@ export default function SelectTable({navigation}) {
           style={{
             borderWidth: 1,
             height: wp(30),
-            width: wp(40),
+            width: wp(50),
             justifyContent: 'center',
             alignItems: 'center',
             margin: wp(2),

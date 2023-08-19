@@ -138,13 +138,13 @@ export default function Dinein({navigation}) {
               backgroundColor:
                 v.status && v.jenis == 'reservasi'
                   ? 'red'
-                  : v.status && v.jenis != 'reservasi'
+                  : v.status && v.jenis == 'dineIn'
                   ? 'green'
                   : 'white',
               display: 'flex',
               borderWidth: 1,
-              height: hp(15),
-              width: hp(15),
+              height: wp(28),
+              width: wp(28),
               justifyContent: 'center',
               alignItems: 'center',
               margin: hp(2),
@@ -163,11 +163,11 @@ export default function Dinein({navigation}) {
         <View
           style={{
             borderWidth: 1,
-            height: hp(15),
-            width: hp(25),
+            height: wp(30),
+            width: wp(50),
             justifyContent: 'center',
             alignItems: 'center',
-            margin: hp(2),
+            margin: wp(2),
           }}>
           <Text>Kasir</Text>
         </View>
