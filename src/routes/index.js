@@ -29,7 +29,7 @@ import Pembayaran from '../screens/page/Pembayaran';
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
   return (
-    <Tab.Navigator screenOptions={tabBarOptions} initialRouteName="Home">
+    <Tab.Navigator barStyle={tabBarOptions} initialRouteName="Home">
       <Tab.Screen
         name="Riwayat"
         component={Riwayat}
@@ -118,7 +118,7 @@ export default function RoutesContainer() {
         <Stack.Screen name="Login" component={Login} />
 
         {/* user */}
-        <Stack.Screen name="Home" component={Home} />
+        {/* <Stack.Screen name="Riwayat" component={(MainScreen, {#Riwayat})} /> */}
         <Stack.Screen name="MainScreen" component={MainScreen} />
         <Stack.Screen name="SelectTable" component={SelectTable} />
         <Stack.Screen
@@ -141,21 +141,14 @@ export default function RoutesContainer() {
   );
 }
 const tabBarOptions = {
-  tabBarLabelStyle: {
-    fontSize: w(3),
-    fontWeight: 'bold',
-    marginBottom: w(2),
-  },
-  tabBarStyle: {
-    height: Platform.OS === 'ios' ? w(20) : w(15),
-    paddingBottom: Platform.OS === 'ios' ? h(2) : 0,
-    paddingVertical: w(1),
-    backgroundColor: '#0095da',
-  },
+  height: w(20),
+  borderTopWidth: 1,
+  borderTopColor: '#d3d3d3',
+  backgroundColor: '#fff',
 };
 const styles = StyleSheet.create({
   tabBarIcon: {
-    height: w(5),
-    width: w(5),
+    height: w(4),
+    width: w(4),
   },
 });

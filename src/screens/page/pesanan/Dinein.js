@@ -9,13 +9,19 @@ import {API_BASE_URL} from '../../../../env';
 export default function Dinein({navigation}) {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [modal, setModal] = useState({pesan: false, dinein: false});
+  const [modal, setModal] = useState({
+    pesan: false,
+    dinein: false,
+    member: false,
+  });
   const [pesan, setPesan] = useState({user_id: 0, meja: 0});
   const hideModal = jenis => {
     if (jenis == 'dinein') {
       setModal({...modal, dinein: false});
     } else if (jenis == 'pesan') {
       setModal({...modal, pesan: false});
+    } else if ((jenis = 'member')) {
+      setModal({...modal, member: false});
     }
   };
   const showModal = (jenis, meja = null) => {
@@ -24,6 +30,8 @@ export default function Dinein({navigation}) {
       setModal({...modal, pesan: true});
     } else if (jenis == 'dinein') {
       setModal({...modal, dinein: true});
+    } else if (jenis == 'member') {
+      setModal({...modal, member: true});
     }
   };
   const [table, setTable] = useState([
@@ -187,7 +195,7 @@ export default function Dinein({navigation}) {
         <View style={{flexDirection: 'row', marginTop: wp(5)}}>
           <Button
             mode="outlined"
-            onPress={() => console.log('pesan')}
+            onPress={() => showModal('member')}
             style={{marginRight: wp(2)}}>
             Member
           </Button>
@@ -217,6 +225,33 @@ export default function Dinein({navigation}) {
             onPress={() => console.log('pesan')}
             style={{marginRight: wp(2)}}>
             Member
+          </Button>
+          <Button
+            mode="outlined"
+            onPress={async () => {
+              await setPesan({...pesan, user_id: 0});
+              submitPesanan();
+            }}>
+            Non Member
+          </Button>
+        </View>
+      </Modal>
+      <Modal
+        visible={modal.member}
+        onDismiss={() => hideModal('member')}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          alignSelf: 'center',
+          padding: 20,
+          width: wp(80),
+          alignItems: 'center',
+        }}>
+        <View style={{flexDirection: 'row', marginTop: wp(5)}}>
+          <Button
+            mode="outlined"
+            onPress={() => console.log('pesan')}
+            style={{marginRight: wp(2)}}>
+            Member nama
           </Button>
           <Button
             mode="outlined"

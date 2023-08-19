@@ -38,8 +38,8 @@ export default function AdminMenu({navigation}) {
     <>
       <Appbar.Header>
         <Appbar.Content title="Daftar Menu" />
-        <Appbar.Action icon="magnify" onPress={() => {}} />
-        <Appbar.Action icon={MORE_ICON} onPress={() => {}} />
+        {/* <Appbar.Action icon="magnify" onPress={() => {}} /> */}
+        {/* <Appbar.Action icon={MORE_ICON} onPress={() => {}} /> */}
       </Appbar.Header>
       <Tab.Navigator>
         <Tab.Screen

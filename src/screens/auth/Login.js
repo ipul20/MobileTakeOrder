@@ -148,9 +148,11 @@ const Login = () => {
           }
         />
 
-        <View style={{width: '35%', height: 30, left: 88}}>
+        <View
+          style={{width: '35%', height: 30, left: 88, flexDirection: 'row'}}>
+          <Text style={{fontWeight: 'bold'}}>Belum Punya Akun ?</Text>
           <TouchableOpacity>
-            <Text style={{fontWeight: 'bold', top: 8}}>Lupa Kata Sandi ?</Text>
+            <Text>Daftar</Text>
           </TouchableOpacity>
         </View>
         <Button

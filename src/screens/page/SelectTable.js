@@ -5,6 +5,9 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
+import {COLOR_GRAY} from '../../styles';
+import {COLOR} from '../../styles/index';
+import {API_BASE_URL} from '../../../env';
 export default function SelectTable({navigation}) {
   const [table, setTable] = useState([
     {
@@ -36,16 +39,50 @@ export default function SelectTable({navigation}) {
       status: false,
     },
   ]);
+  const [loading, setLoading] = useState(false);
+  const [select, setSelect] = useState(null);
   const getStatusTable = async () => {
     try {
-      const response = await fetch(
-        'https://order.portalabsen.com/api/cek-table',
-      );
+      const response = await fetch(API_BASE_URL + '/cek-table');
       const json = await response.json();
       console.log(json.data);
       setTable(json.data);
     } catch (error) {
       console.error(error);
+    }
+  };
+  const Reservasi = async () => {
+    setLoading(true);
+
+    try {
+      let res = await fetch(API_BASE_URL + '/pesan', {
+        method: 'post',
+        body: JSON.stringify({
+          jenis: 'reservasi',
+          meja: select,
+          user_id: 1,
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      let result = await res.json();
+      setLoading(false);
+      console.log('respon', result);
+      if (result.status == true) {
+        alert('Tambah Pesanan Berhasil');
+        navigation.replace('MainScreen:{#Riwayat}');
+        // navigation.push('MainScreen');
+        // navigation.goBack();
+      } else {
+        alert(result.message);
+        navigation.replace('MainScreen', {screen: 'Riwayat'});
+      }
+    } catch (error) {
+      console.log('error upload', error);
+      alert('Tambah Pesanan gagal :', error);
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -71,21 +108,22 @@ export default function SelectTable({navigation}) {
           flexWrap: 'wrap',
           // justifyContent: 'space-between',
           alignContent: 'space-between',
-          height: hp(80),
+          height: hp(75),
         }}>
         {table.map(v => (
           <TouchableOpacity
             disabled={v.status}
+            onPress={() => setSelect(v.nomor)}
             style={{
-              backgroundColor: v.status ? 'red' : 'white',
+              backgroundColor:
+                select == v.nomor ? 'green' : v.status ? 'red' : 'white',
               display: 'flex',
               borderWidth: 1,
-              height: hp(15),
-              width: hp(15),
+              height: wp(28),
+              width: wp(28),
               justifyContent: 'center',
               alignItems: 'center',
               margin: hp(2),
-              alignSelf: 'flex-end',
             }}>
             <Text>{v.nomor}</Text>
           </TouchableOpacity>
@@ -93,22 +131,73 @@ export default function SelectTable({navigation}) {
         <View
           style={{
             borderWidth: 1,
-            height: hp(15),
-            width: hp(25),
+            height: wp(30),
+            width: wp(40),
             justifyContent: 'center',
             alignItems: 'center',
-            margin: hp(2),
+            margin: wp(2),
           }}>
           <Text>Kasir</Text>
         </View>
       </View>
       <View
         style={{
-          backgroundColor: 'yellow',
-          flex: 1,
+          height: wp(7),
+          marginVertical: wp(1),
+          flexDirection: 'row',
+          alignItems: 'center',
         }}>
-        <Button></Button>
+        <View
+          style={{
+            width: wp(5),
+            height: wp(5),
+            backgroundColor: 'red',
+            margin: wp(2),
+          }}></View>
+        <Text>tidak tersedia</Text>
+        <View
+          style={{
+            width: wp(5),
+            height: wp(5),
+            borderWidth: 1,
+            margin: wp(2),
+          }}></View>
+        <Text>tersedia</Text>
+        <View
+          style={{
+            width: wp(5),
+            height: wp(5),
+            margin: wp(2),
+            backgroundColor: 'green',
+          }}></View>
+        <Text>Pilihan Anda</Text>
       </View>
+      {select ? (
+        <TouchableOpacity
+          onPress={Reservasi}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: wp(5),
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            backgroundColor: COLOR.PRIMARY,
+
+            elevation: 3,
+          }}>
+          <Text style={{color: 'white', fontWeight: 'bold', fontSize: wp(4)}}>
+            Reservasi Kursi {select}
+          </Text>
+        </TouchableOpacity>
+      ) : (
+        <></>
+      )}
     </View>
   );
 }
