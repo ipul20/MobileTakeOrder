@@ -89,8 +89,12 @@ const Login = () => {
       .then(res => res.json())
       .then(async res => {
         console.log('respon', res);
-        if (res.code == 200) {
-          navigation.replace('HomeStack');
+        if (res.status == true) {
+          if (res.data.role == 'user') {
+            navigation.replace('MainScreen');
+          } else if (res.data.role == 'admin') {
+            navigation.replace('HomeAdmin');
+          }
         } else {
           alert(res.message);
         }

@@ -36,6 +36,13 @@ export default function HomeAdmin({navigation}) {
         onPress={() => navigation.navigate('Pesanan')}>
         <Text>Data Pesanan</Text>
       </Button>
+      <Button
+        mode="contained"
+        compact={false}
+        style={styles.button}
+        onPress={() => navigation.navigate('Login')}>
+        <Text>Log Out</Text>
+      </Button>
     </View>
   );
 }

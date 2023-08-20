@@ -88,7 +88,7 @@ export default function Takeaway({navigation}) {
                 </View>
                 <View style={{}}>
                   <Text style={{fontSize: wp(4), fontWeight: 'bold'}}>
-                    Rp.200.000.000
+                    Rp.{v.total}
                   </Text>
                 </View>
               </View>
@@ -100,30 +100,40 @@ export default function Takeaway({navigation}) {
                 alignSelf: 'center',
                 flexDirection: 'row',
               }}>
-              <IconButton
-                mode="contained"
-                style={{borderRadius: wp(2), padding: 0}}
-                icon={require('../../../assets/icon/confirm.png')}
-                iconColor={MD3Colors.error50}
-                size={wp(3.5)}
-                onPress={() => console.log('dd')}
-              />
-              <IconButton
-                mode="contained"
-                style={{borderRadius: wp(2)}}
-                icon={require('../../../assets/icon/cancel.png')}
-                iconColor={MD3Colors.error50}
-                size={wp(3.5)}
-                onPress={() => console.log('dd')}
-              />
-              <IconButton
-                mode="contained"
-                style={{borderRadius: wp(2)}}
-                icon={require('../../../assets/icon/whatsapp.png')}
-                iconColor={MD3Colors.error50}
-                size={wp(3.5)}
-                onPress={() => console.log('dd')}
-              />
+              {v.status == 0 ? (
+                <>
+                  <IconButton
+                    mode="contained"
+                    style={{borderRadius: wp(2)}}
+                    icon={require('../../../assets/icon/whatsapp.png')}
+                    iconColor={MD3Colors.error50}
+                    size={wp(3.5)}
+                    onPress={() => console.log('dd')}
+                  />
+                  <IconButton
+                    mode="contained"
+                    style={{borderRadius: wp(2), padding: 0}}
+                    icon={require('../../../assets/icon/confirm.png')}
+                    iconColor={MD3Colors.error50}
+                    size={wp(3.5)}
+                    onPress={() => console.log('dd')}
+                  />
+                  <IconButton
+                    mode="contained"
+                    style={{borderRadius: wp(2)}}
+                    icon={require('../../../assets/icon/cancel.png')}
+                    iconColor={MD3Colors.error50}
+                    size={wp(3.5)}
+                    onPress={() => console.log('dd')}
+                  />
+                </>
+              ) : (
+                <>
+                  <TouchableOpacity style={{backgroundColor: 'red'}}>
+                    <Text>Selesai</Text>
+                  </TouchableOpacity>
+                </>
+              )}
             </View>
           </TouchableOpacity>
         ))}
