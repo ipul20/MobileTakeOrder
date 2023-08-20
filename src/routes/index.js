@@ -27,6 +27,7 @@ import Pesanan from '../screens/page/Pesanan';
 import Pembayaran from '../screens/page/Pembayaran';
 import Profile from '../screens/main/Profile';
 import DetailTakeaway from '../screens/page/DetailTakeaway';
+import HomeKoki from '../screens/koki/HomeKoki';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -139,6 +140,9 @@ export default function RoutesContainer() {
         <Stack.Screen name="SelectMenu" component={SelectMenu} />
         <Stack.Screen name="Pembayaran" component={Pembayaran} />
         <Stack.Screen name="DetailTakeaway" component={DetailTakeaway} />
+
+        {/* Koki */}
+        <Stack.Screen name="HomeKoki" component={HomeKoki} />
       </Stack.Navigator>
     </NavigationContainer>
   );

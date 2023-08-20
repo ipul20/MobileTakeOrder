@@ -98,6 +98,14 @@ const Login = () => {
         } else {
           alert(res.message);
         }
+      })
+      .catch(function (error) {
+        console.log(
+          'There has been a problem with your fetch operation: ' +
+            error.message,
+        );
+        // ADD THIS THROW error
+        throw error;
       });
   };
 
@@ -152,19 +160,22 @@ const Login = () => {
           }
         />
 
-        <View
+        {/* <View
           style={{width: '35%', height: 30, left: 88, flexDirection: 'row'}}>
           <Text style={{fontWeight: 'bold'}}>Belum Punya Akun ?</Text>
           <TouchableOpacity>
             <Text>Daftar</Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         <Button
           mode="contained"
           onPress={loginpress}
           style={styles.buttonMasuk}
           compact={false}>
           <Text style={{color: '#F4F9F9'}}>MASUK</Text>
+        </Button>
+        <Button mode="contained" style={styles.buttonDaftar} compact={false}>
+          <Text style={{color: '#0095da'}}>Daftar</Text>
         </Button>
         <Button
           mode="contained"
@@ -174,6 +185,15 @@ const Login = () => {
           style={styles.buttonDaftar}
           compact={false}>
           <Text style={{color: '#0095da'}}>Menu Admin</Text>
+        </Button>
+        <Button
+          mode="contained"
+          onPress={() => {
+            navigation.navigate('HomeKoki');
+          }}
+          style={styles.buttonDaftar}
+          compact={false}>
+          <Text style={{color: '#0095da'}}>Menu Koki</Text>
         </Button>
         <Button
           mode="contained"
