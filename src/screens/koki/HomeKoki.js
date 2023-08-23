@@ -19,7 +19,7 @@ export default function HomeKoki({navigation}) {
         mode="contained"
         compact={false}
         style={styles.button}
-        onPress={() => navigation.navigate('Pesanan')}>
+        onPress={() => navigation.navigate('KokiPesanan')}>
         <Text>Data Pesanan</Text>
       </Button>
       <Button

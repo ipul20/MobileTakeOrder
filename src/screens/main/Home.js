@@ -89,7 +89,7 @@ export default function Home({navigation}) {
           </View>
           <Text>TakeAway</Text>
         </TouchableOpacity>
-        <View style={{alignItems: 'center'}}>
+        {/* <View style={{alignItems: 'center'}}>
           <View
             style={{
               height: wp(20),
@@ -118,7 +118,7 @@ export default function Home({navigation}) {
             />
           </View>
           <Text>Reorder</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

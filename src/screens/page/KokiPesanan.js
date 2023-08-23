@@ -5,8 +5,8 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import {API_BASE_URL, BASE_URL} from '../../../../env';
-import {COLOR, COLOR_GRAY} from '../../../styles';
+import {API_BASE_URL, BASE_URL} from '../../../env';
+import {COLOR, COLOR_GRAY} from '../../styles';
 
 export default function KokiPesanan({navigation}) {
   const [pesanan, setPesanan] = useState([
@@ -61,7 +61,7 @@ export default function KokiPesanan({navigation}) {
                   padding: wp(1),
                 }}>
                 <Image
-                  source={require('../../../assets/image/user.png')}
+                  source={require('../../assets/image/user.png')}
                   style={{
                     width: wp(20),
                     height: wp(20),
@@ -99,42 +99,7 @@ export default function KokiPesanan({navigation}) {
                 width: wp(31),
                 alignSelf: 'center',
                 flexDirection: 'row',
-              }}>
-              {v.status == 0 ? (
-                <>
-                  <IconButton
-                    mode="contained"
-                    style={{borderRadius: wp(2)}}
-                    icon={require('../../../assets/icon/whatsapp.png')}
-                    iconColor={MD3Colors.error50}
-                    size={wp(3.5)}
-                    onPress={() => console.log('dd')}
-                  />
-                  <IconButton
-                    mode="contained"
-                    style={{borderRadius: wp(2), padding: 0}}
-                    icon={require('../../../assets/icon/confirm.png')}
-                    iconColor={MD3Colors.error50}
-                    size={wp(3.5)}
-                    onPress={() => console.log('dd')}
-                  />
-                  <IconButton
-                    mode="contained"
-                    style={{borderRadius: wp(2)}}
-                    icon={require('../../../assets/icon/cancel.png')}
-                    iconColor={MD3Colors.error50}
-                    size={wp(3.5)}
-                    onPress={() => console.log('dd')}
-                  />
-                </>
-              ) : (
-                <>
-                  <TouchableOpacity style={{backgroundColor: 'red'}}>
-                    <Text>Selesai</Text>
-                  </TouchableOpacity>
-                </>
-              )}
-            </View>
+              }}></View>
           </TouchableOpacity>
         ))}
       </ScrollView>
