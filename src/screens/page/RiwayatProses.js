@@ -40,14 +40,25 @@ export default function RiwayatProses(props) {
                   marginRight: wp(3),
                   padding: wp(1),
                 }}>
-                <Image
-                  source={require('../../assets/image/user.png')}
-                  style={{
-                    width: wp(20),
-                    height: wp(20),
-                    borderRadius: wp(1),
-                  }}
-                />
+                {v.jenis == 'reservasi' ? (
+                  <Image
+                    source={require('../../assets/icon/list.gif')}
+                    style={{
+                      width: wp(20),
+                      height: wp(20),
+                      borderRadius: wp(1),
+                    }}
+                  />
+                ) : (
+                  <Image
+                    source={require('../../assets/icon/paper-bag.gif')}
+                    style={{
+                      width: wp(20),
+                      height: wp(20),
+                      borderRadius: wp(1),
+                    }}
+                  />
+                )}
               </View>
               <View
                 style={{
@@ -58,18 +69,38 @@ export default function RiwayatProses(props) {
                     marginRight: wp(2),
                   }}>
                   <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
-                    Pesanan
+                    {v.jenis.toUpperCase()}{' '}
+                    {/* {v.jenis == 'reservasi' ? ' MEJA ' + v.meja : ''} */}
                   </Text>
                 </View>
-                <View>
-                  <Text style={{fontSize: wp(3), fontWeight: 'bold'}}>
-                    Jenis Pesanan = {v.jenis}
-                  </Text>
-                </View>
-                <View style={{flexDirection: 'row'}}>
-                  <Text style={{fontSize: wp(3)}}>Status = </Text>
-                  <Text style={{fontSize: wp(3)}}>Status</Text>
-                </View>
+                {v.jenis == 'reservasi' ? (
+                  <View>
+                    <Text style={{fontSize: wp(3), fontWeight: 'bold'}}>
+                      Meja ={v.meja}
+                    </Text>
+                  </View>
+                ) : (
+                  <></>
+                )}
+                {v.jenis == 'takeaway' ? (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={{fontSize: wp(3)}}>Status = </Text>
+                    <Text style={{fontSize: wp(3)}}>
+                      {v.status == 0
+                        ? 'menunggu konfirmasi admin'
+                        : v.status == 2
+                        ? 'telah dikonfirmasi, pesanan sedang dibuat'
+                        : v.status == 3
+                        ? 'pesanan siap diambil'
+                        : ''}
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={{flexDirection: 'row'}}>
+                    <Text style={{fontSize: wp(3)}}>Batas Reservasi = </Text>
+                    <Text style={{fontSize: wp(3)}}>{v.batas}</Text>
+                  </View>
+                )}
               </View>
             </View>
             <View
