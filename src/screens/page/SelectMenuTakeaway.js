@@ -368,7 +368,7 @@ export default function SelectMenuTakeaway({navigation}) {
             backgroundColor: COLOR.PRIMARY,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate('Cart', {pesan: pesanan})}>
+          onPress={() => navigation.navigate('CartTakeaway', {pesan: pesanan})}>
           <Text style={{color: 'white', fontWeight: '700'}}>
             {total.item} Item
           </Text>

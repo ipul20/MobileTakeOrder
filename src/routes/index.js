@@ -30,6 +30,7 @@ import DetailTakeaway from '../screens/page/DetailTakeaway';
 import HomeKoki from '../screens/koki/HomeKoki';
 import KokiPesanan from '../screens/page/KokiPesanan';
 import Register from '../screens/auth/Register';
+import CartTakeaway from '../screens/page/CartTakeaway';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -131,7 +132,7 @@ export default function RoutesContainer() {
           name="SelectMenuTakeaway"
           component={SelectMenuTakeaway}
         />
-        <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="CartTakeaway" component={CartTakeaway} />
 
         {/* //admin */}
         <Stack.Screen name="HomeAdmin" component={HomeAdmin} />
@@ -143,6 +144,7 @@ export default function RoutesContainer() {
         <Stack.Screen name="SelectMenu" component={SelectMenu} />
         <Stack.Screen name="Pembayaran" component={Pembayaran} />
         <Stack.Screen name="DetailTakeaway" component={DetailTakeaway} />
+        <Stack.Screen name="Cart" component={Cart} />
 
         {/* Koki */}
         <Stack.Screen name="HomeKoki" component={HomeKoki} />
