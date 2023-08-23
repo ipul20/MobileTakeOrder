@@ -16,9 +16,29 @@ export default function DaftarUser(props) {
     <View>
       <ScrollView
         contentContainerStyle={{
-          minHeight: hp(100),
-          paddingBottom: hp(25),
+          alignItems: 'center',
+          padding: wp(2),
+          minHeight: '100%',
         }}>
+        <Button
+          mode="contained"
+          compact={false}
+          style={{
+            width: '80%',
+            paddingVertical: 5,
+            marginBottom: 10,
+            borderRadius: 7,
+            backgroundColor: '#0095DA',
+            borderWidth: 2,
+          }}
+          onPress={() =>
+            navigation.navigate('TambahMenu', {
+              role: role.toLowerCase(),
+            })
+          }>
+          <View></View>
+          <Text>Tambah Data {role}</Text>
+        </Button>
         {data.map(v => (
           <TouchableOpacity
             onPress={() => navigation.navigate('DetailTakeaway')}
