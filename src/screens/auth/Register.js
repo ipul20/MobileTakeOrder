@@ -17,7 +17,7 @@ import {
 } from 'react-native-responsive-screen';
 import {COLOR} from '../../styles';
 
-const Login = () => {
+const Register = () => {
   const navigation = useNavigation();
 
   const [password, setPassword] = useState({value: '', error: false});
@@ -111,7 +111,7 @@ const Login = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Login Akun</Text>
+      <Text style={styles.header}>Daftar Akun</Text>
       <View style={styles.logo}>
         <Image
           source={DEFAULT_PROFILE_PICTURE}
@@ -131,6 +131,26 @@ const Login = () => {
         Warung Bakso Solo
       </Text>
       <View style={styles.groupinput}>
+        <TextInput
+          outlineColor="#0095da"
+          style={styles.input}
+          label="Name"
+          mode="outlined"
+          value={username.value}
+          onChangeText={text => setUsername({value: text, error: false})}
+          left={<TextInput.Icon name="account" color="#0095DA" />}
+          theme={{colors: {primary: COLOR.PRIMARY}}}
+        />
+        <TextInput
+          outlineColor="#0095da"
+          style={styles.input}
+          label="Nomor HP (WA) "
+          mode="outlined"
+          value={username.value}
+          onChangeText={text => setUsername({value: text, error: false})}
+          left={<TextInput.Icon name="account" color="#0095DA" />}
+          theme={{colors: {primary: COLOR.PRIMARY}}}
+        />
         <TextInput
           outlineColor="#0095da"
           style={styles.input}
@@ -172,41 +192,14 @@ const Login = () => {
           onPress={loginpress}
           style={styles.buttonMasuk}
           compact={false}>
-          <Text style={{color: '#F4F9F9'}}>MASUK</Text>
+          <Text style={{color: '#F4F9F9'}}>Daftar</Text>
         </Button>
         <Button
           mode="contained"
           style={styles.buttonDaftar}
           compact={false}
-          onPress={() => navigation.navigate('Register')}>
-          <Text style={{color: '#0095da'}}>Daftar</Text>
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => {
-            navigation.navigate('HomeAdmin');
-          }}
-          style={styles.buttonDaftar}
-          compact={false}>
-          <Text style={{color: '#0095da'}}>Menu Admin</Text>
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => {
-            navigation.navigate('HomeKoki');
-          }}
-          style={styles.buttonDaftar}
-          compact={false}>
-          <Text style={{color: '#0095da'}}>Menu Koki</Text>
-        </Button>
-        <Button
-          mode="contained"
-          onPress={() => {
-            navigation.navigate('MainScreen');
-          }}
-          style={styles.buttonDaftar}
-          compact={false}>
-          <Text style={{color: '#0095da'}}>Menu User</Text>
+          onPress={() => navigation.navigate('Login')}>
+          <Text style={{color: '#0095da'}}>Masuk</Text>
         </Button>
       </View>
     </View>
@@ -268,4 +261,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;

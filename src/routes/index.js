@@ -29,6 +29,7 @@ import Profile from '../screens/main/Profile';
 import DetailTakeaway from '../screens/page/DetailTakeaway';
 import HomeKoki from '../screens/koki/HomeKoki';
 import KokiPesanan from '../screens/page/KokiPesanan';
+import Register from '../screens/auth/Register';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -120,6 +121,7 @@ export default function RoutesContainer() {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {/* auth */}
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="Register" component={Register} />
 
         {/* user */}
         {/* <Stack.Screen name="Riwayat" component={(MainScreen, {#Riwayat})} /> */}

@@ -15,7 +15,6 @@ export default function RiwayatProses(props) {
       <ScrollView
         contentContainerStyle={{
           minHeight: hp(100),
-          paddingBottom: hp(25),
         }}>
         {data.map(v => (
           <TouchableOpacity
@@ -59,7 +58,7 @@ export default function RiwayatProses(props) {
                     marginRight: wp(2),
                   }}>
                   <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
-                    Mie Pangsit
+                    Pesanan
                   </Text>
                 </View>
                 <View>

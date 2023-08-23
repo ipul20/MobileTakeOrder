@@ -11,6 +11,9 @@ import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
 export default function Cart({navigation, route}) {
   const {pesan} = route.params;
+  const {meja} = route.params;
+  const {jenis} = route.params ?? '';
+
   console.log(pesan);
   const [loading, setLoading] = useState(false);
   const [pesanan, setPesanan] = useState(pesan ?? []);
@@ -149,7 +152,7 @@ export default function Cart({navigation, route}) {
               fontSize: wp(5),
               fontWeight: 'bold',
             }}>
-            Your Cart
+            Daftar Pesanan Dine In
           </Text>
         </View>
       </View>
@@ -259,7 +262,7 @@ export default function Cart({navigation, route}) {
           </View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>
-              Biaya Layanan & lainnya
+              Biaya Layanan & lainnyas
             </Text>
             <Text style={{fontSize: wp(3.5), fontWeight: 'bold'}}>Rp. 0</Text>
           </View>
@@ -278,7 +281,7 @@ export default function Cart({navigation, route}) {
           position: 'absolute',
           bottom: hp(4),
           left: 0,
-          height: hp(15),
+          height: wp(55),
           width: wp(100),
           backgroundColor: 'white',
           alignItems: 'center',
@@ -294,6 +297,70 @@ export default function Cart({navigation, route}) {
           elevation: 3,
           borderTopWidth: 1,
         }}>
+        <TouchableOpacity
+          disabled={loading}
+          style={{
+            height: wp(15),
+            width: wp(90),
+            marginBottom: wp(2),
+            // backgroundColor: COLOR_GRAY.LIGHTEST,
+            borderRadius: wp(3),
+            paddingHorizontal: wp(4),
+            paddingVertical: wp(2),
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 4,
+            borderColor: COLOR.PRIMARY,
+            backgroundColor: COLOR.PRIMARY,
+            borderWidth: 1,
+          }}
+          onPress={() => navigation.navigate('SelectMenu', {pesan: pesanan})}>
+          <View style={{alignSelf: 'center'}}>
+            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
+              Tambah Pesanan
+            </Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          disabled={loading}
+          style={{
+            height: wp(15),
+            width: wp(90),
+            marginBottom: wp(2),
+            // backgroundColor: COLOR_GRAY.LIGHTEST,
+            borderRadius: wp(3),
+            paddingHorizontal: wp(4),
+            paddingVertical: wp(2),
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            shadowColor: '#000',
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 2.22,
+            elevation: 4,
+            borderColor: COLOR.PRIMARY,
+            backgroundColor: COLOR.PRIMARY,
+            borderWidth: 1,
+          }}
+          onPress={() => updatePesanan()}>
+          <View style={{alignSelf: 'center'}}>
+            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
+              Update Pesanan
+            </Text>
+          </View>
+        </TouchableOpacity>
         <TouchableOpacity
           disabled={loading}
           style={{
@@ -321,7 +388,7 @@ export default function Cart({navigation, route}) {
           onPress={() => checkout()}>
           <View style={{alignSelf: 'center'}}>
             <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
-              Checkout
+              Selesai
             </Text>
           </View>
           <View style={{position: 'absolute', right: wp(3)}}>
