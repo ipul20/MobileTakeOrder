@@ -15,8 +15,10 @@ import {
 import ActionBar from 'react-native-action-bar';
 import {BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
-export default function SelectMenu({navigation}) {
-  const [pesanan, setPesanan] = useState([]);
+export default function SelectMenu({navigation, route}) {
+  const {pesan} = route.params;
+  const [pesanan, setPesanan] = useState(pesan);
+  console.log('pesanan', pesanan);
   const [cart, setCart] = useState([1, 2, 3, 4]);
 
   //cari order

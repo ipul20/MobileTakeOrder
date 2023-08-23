@@ -14,9 +14,10 @@ export default function Cart({navigation, route}) {
   const {meja} = route.params;
   const {jenis} = route.params ?? '';
 
-  console.log(pesan);
+  console.log('pesananddd', pesan);
   const [loading, setLoading] = useState(false);
   const [pesanan, setPesanan] = useState(pesan ?? []);
+
   const [total, setTotal] = useState({item: 0, harga: 0});
   const [metode, setMetode] = useState();
 
@@ -114,6 +115,9 @@ export default function Cart({navigation, route}) {
   useEffect(() => {
     sumTotal();
   }, [pesanan]);
+  useEffect(() => {
+    setPesanan(pesan);
+  }, [pesan]);
   return (
     <View>
       <View
@@ -322,7 +326,9 @@ export default function Cart({navigation, route}) {
             backgroundColor: COLOR.PRIMARY,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate('SelectMenu', {pesan: pesanan})}>
+          onPress={() => {
+            navigation.navigate('SelectMenu', {pesan: pesanan});
+          }}>
           <View style={{alignSelf: 'center'}}>
             <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
               Tambah Pesanan

@@ -102,7 +102,7 @@ export default function Dinein({navigation}) {
       console.log('respon', result);
       if (result.status == true) {
         alert('Tambah Pesanan Berhasil');
-        navigation.replace('SelectMenu');
+        navigation.replace('SelectMenu', {pesan: []});
         // navigation.push('MainScreen');
         // navigation.goBack();
       }
@@ -111,6 +111,10 @@ export default function Dinein({navigation}) {
       alert('Tambah Pesanan gagal :', error);
       setLoading(false);
     }
+  };
+
+  const Bayar = async () => {
+    navigation.navigate('Cart', {pesan: []});
   };
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -279,7 +283,8 @@ export default function Dinein({navigation}) {
                 marginRight: wp(2),
                 backgroundColor: COLOR.PRIMARY,
                 borderRadius: wp(2),
-              }}>
+              }}
+              onPress={() => Bayar()}>
               Bayar
             </Button>
             <Button
