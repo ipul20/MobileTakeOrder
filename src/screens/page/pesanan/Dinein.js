@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, TextInput} from 'react-native';
 import {Button, Modal} from 'react-native-paper';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {API_BASE_URL} from '../../../../env';
+import {COLOR} from '../../../styles/index';
 export default function Dinein({navigation}) {
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -13,6 +14,7 @@ export default function Dinein({navigation}) {
     pesan: false,
     dinein: false,
     member: false,
+    reservasi: false,
   });
   const [pesan, setPesan] = useState({user_id: 0, meja: 0});
   const hideModal = jenis => {
@@ -20,8 +22,10 @@ export default function Dinein({navigation}) {
       setModal({...modal, dinein: false});
     } else if (jenis == 'pesan') {
       setModal({...modal, pesan: false});
-    } else if ((jenis = 'member')) {
+    } else if (jenis == 'member') {
       setModal({...modal, member: false});
+    } else if (jenis == 'reservasi') {
+      setModal({...modal, reservasi: false});
     }
   };
   const showModal = (jenis, meja = null) => {
@@ -30,6 +34,8 @@ export default function Dinein({navigation}) {
       setModal({...modal, pesan: true});
     } else if (jenis == 'dinein') {
       setModal({...modal, dinein: true});
+    } else if (jenis == 'reservasi') {
+      setModal({...modal, reservasi: true});
     } else if (jenis == 'member') {
       setModal({...modal, member: true});
     }
@@ -133,7 +139,6 @@ export default function Dinein({navigation}) {
         }}>
         {table.map(v => (
           <TouchableOpacity
-            disabled={v.status && v.jenis == 'reservasi' ? true : false}
             style={{
               backgroundColor:
                 v.status && v.jenis == 'reservasi'
@@ -151,8 +156,10 @@ export default function Dinein({navigation}) {
               alignSelf: 'flex-end',
             }}
             onPress={() => {
-              if (v.status && v.jenis != 'reservasi') {
+              if (v.status && v.jenis == 'dineIn') {
                 showModal('dinein');
+              } else if (v.status && v.jenis == 'reservasi') {
+                showModal('reservasi');
               } else if (!v.status) {
                 showModal('pesan', v.nomor);
               }
@@ -226,17 +233,26 @@ export default function Dinein({navigation}) {
         </Text>
         <View style={{flexDirection: 'row', marginTop: wp(5)}}>
           <Button
-            mode="outlined"
             onPress={() => showModal('member')}
-            style={{marginRight: wp(2)}}>
+            mode="contained"
+            style={{
+              marginRight: wp(2),
+              backgroundColor: COLOR.PRIMARY,
+              borderRadius: wp(2),
+            }}>
             Member
           </Button>
           <Button
-            mode="outlined"
+            mode="contained"
+            style={{
+              backgroundColor: COLOR.PRIMARY,
+              borderRadius: wp(2),
+            }}
             onPress={async () => {
               await setPesan({...pesan, user_id: 0});
               submitPesanan();
             }}>
+            {' '}
             Non Member
           </Button>
         </View>
@@ -251,21 +267,30 @@ export default function Dinein({navigation}) {
           width: wp(80),
           alignItems: 'center',
         }}>
-        <View style={{flexDirection: 'row', marginTop: wp(5)}}>
-          <Button
-            mode="outlined"
-            onPress={() => console.log('pesan')}
-            style={{marginRight: wp(2)}}>
-            Member
-          </Button>
-          <Button
-            mode="outlined"
-            onPress={async () => {
-              await setPesan({...pesan, user_id: 0});
-              submitPesanan();
-            }}>
-            Non Member
-          </Button>
+        <View
+          style={{
+            alignItems: 'center',
+          }}>
+          <Text>Pesanan Dine In</Text>
+          <View style={{flexDirection: 'row', marginTop: wp(5)}}>
+            <Button
+              mode="contained"
+              style={{
+                marginRight: wp(2),
+                backgroundColor: COLOR.PRIMARY,
+                borderRadius: wp(2),
+              }}>
+              Bayar
+            </Button>
+            <Button
+              mode="contained"
+              style={{
+                backgroundColor: COLOR.PRIMARY,
+                borderRadius: wp(2),
+              }}>
+              Pindah Meja
+            </Button>
+          </View>
         </View>
       </Modal>
       <Modal
@@ -278,21 +303,58 @@ export default function Dinein({navigation}) {
           width: wp(80),
           alignItems: 'center',
         }}>
-        <View style={{flexDirection: 'row', marginTop: wp(5)}}>
-          <Button
-            mode="outlined"
-            onPress={() => console.log('pesan')}
-            style={{marginRight: wp(2)}}>
-            Member nama
-          </Button>
-          <Button
-            mode="outlined"
-            onPress={async () => {
-              await setPesan({...pesan, user_id: 0});
-              submitPesanan();
+        <View style={{alignItems: 'center', marginTop: wp(1)}}>
+          <Text
+            style={{
+              marginBottom: wp(5),
+              fontWeight: 'bold',
+              fontSize: wp(5),
             }}>
-            Non Member
+            Cari Member
+          </Text>
+          <Text
+            style={{
+              alignSelf: 'flex-start',
+              marginBottom: wp(1),
+              fontWeight: 'bold',
+            }}>
+            Username/Nomor hp Member
+          </Text>
+          <TextInput
+            editable
+            multiline
+            numberOfLines={4}
+            maxLength={40}
+            onChangeText={text => console.log(text)}
+            style={{
+              padding: 10,
+              borderWidth: 1,
+              height: wp(10),
+              width: wp(65),
+              marginBottom: wp(2),
+              borderRadius: wp(2),
+            }}
+          />
+          <Button
+            mode="contained"
+            onPress={async () => {}}
+            style={{borderRadius: wp(2), backgroundColor: COLOR.PRIMARY}}>
+            Cari Member
           </Button>
+        </View>
+      </Modal>
+      <Modal
+        visible={modal.reservasi}
+        onDismiss={() => hideModal('reservasi')}
+        contentContainerStyle={{
+          backgroundColor: 'white',
+          alignSelf: 'center',
+          padding: 20,
+          width: wp(80),
+          alignItems: 'center',
+        }}>
+        <View style={{flexDirection: 'row', marginTop: wp(5)}}>
+          <Text>Reservasi</Text>
         </View>
       </Modal>
     </View>
