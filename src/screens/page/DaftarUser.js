@@ -8,11 +8,10 @@ import {
 import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
 
-export default function DaftarUser() {
-  const [user, setUser] = useState([
-    {id: 1, nama: 'ipul'},
-    {id: 2, nama: 2},
-  ]);
+export default function DaftarUser(props) {
+  const [user, setUser] = useState([]);
+  const role = props.role;
+  const data = props.data ?? [];
   return (
     <View>
       <ScrollView
@@ -20,7 +19,7 @@ export default function DaftarUser() {
           minHeight: hp(100),
           paddingBottom: hp(25),
         }}>
-        {user.map(v => (
+        {data.map(v => (
           <TouchableOpacity
             onPress={() => navigation.navigate('DetailTakeaway')}
             style={{
@@ -63,7 +62,7 @@ export default function DaftarUser() {
                     marginRight: wp(2),
                   }}>
                   <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
-                    {v.nama}
+                    {v.name}
                   </Text>
                 </View>
               </View>
