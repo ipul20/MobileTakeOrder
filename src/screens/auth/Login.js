@@ -90,6 +90,7 @@ const Login = () => {
       .then(async res => {
         console.log('respon', res);
         if (res.status == true) {
+          alert('login Berhasil');
           if (res.data.role == 'user') {
             navigation.replace('MainScreen');
           } else if (res.data.role == 'admin') {
@@ -181,6 +182,7 @@ const Login = () => {
           onPress={() => navigation.navigate('Register')}>
           <Text style={{color: '#0095da'}}>Daftar</Text>
         </Button>
+
         <Button
           mode="contained"
           onPress={() => {

@@ -63,6 +63,7 @@ export default function DaftarUser(props) {
                   marginTop: wp(2),
                   marginRight: wp(3),
                   padding: wp(1),
+                  width: wp(22),
                 }}>
                 <Image
                   source={require('../../assets/image/user.png')}
@@ -76,6 +77,8 @@ export default function DaftarUser(props) {
               <View
                 style={{
                   flexDirection: 'column',
+                  width: wp(43),
+                  marginRight: wp(2),
                 }}>
                 <View
                   style={{
@@ -85,6 +88,26 @@ export default function DaftarUser(props) {
                     {v.name}
                   </Text>
                 </View>
+              </View>
+              <View
+                style={{
+                  width: wp(30),
+                  flexDirection: 'row',
+                }}>
+                <IconButton
+                  mode="contained"
+                  icon={require('../../assets/icon/edit.png')}
+                  iconColor={MD3Colors.error50}
+                  size={wp(5)}
+                  onPress={() => navigation.navigate('EditMenu', v)}
+                />
+                <IconButton
+                  mode="contained"
+                  icon={require('../../assets/icon/delete.png')}
+                  iconColor={MD3Colors.error50}
+                  size={wp(5)}
+                  onPress={() => showAlert(v.nama, v.id)}
+                />
               </View>
             </View>
             <View
