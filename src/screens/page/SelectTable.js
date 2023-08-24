@@ -8,6 +8,7 @@ import {
 import {COLOR_GRAY} from '../../styles';
 import {COLOR} from '../../styles/index';
 import {API_BASE_URL} from '../../../env';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function SelectTable({navigation}) {
   const [table, setTable] = useState([
     {
@@ -52,6 +53,8 @@ export default function SelectTable({navigation}) {
     }
   };
   const Reservasi = async () => {
+    const user_id = await AsyncStorage.getItem('id');
+
     setLoading(true);
 
     try {
@@ -60,7 +63,7 @@ export default function SelectTable({navigation}) {
         body: JSON.stringify({
           jenis: 'reservasi',
           meja: select,
-          user_id: 1,
+          user_id: user_id,
         }),
         headers: {
           Accept: 'application/json',

@@ -80,6 +80,7 @@ export default function CartTakeaway({navigation, route}) {
         body: JSON.stringify({
           jenis: 'takeaway',
           pesanan: pesanan,
+          user_id: user_id,
         }),
         headers: {
           Accept: 'application/json',
