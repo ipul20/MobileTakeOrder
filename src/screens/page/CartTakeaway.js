@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
@@ -72,7 +73,7 @@ export default function CartTakeaway({navigation, route}) {
 
   const checkout = async () => {
     setLoading(true);
-
+    const user_id = await AsyncStorage.getItem('id');
     try {
       let res = await fetch(API_BASE_URL + '/pesan', {
         method: 'post',

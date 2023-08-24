@@ -16,6 +16,7 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {COLOR} from '../../styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = () => {
   const navigation = useNavigation();
@@ -90,6 +91,9 @@ const Login = () => {
       .then(async res => {
         console.log('respon', res);
         if (res.status == true) {
+          await AsyncStorage.setItem('id', res.data.id.toString());
+          // await AsyncStorage.setItem("nama", res.data.name.toString());
+          await AsyncStorage.setItem('role', res.data.role.toString());
           alert('login Berhasil');
           if (res.data.role == 'user') {
             navigation.replace('MainScreen');
