@@ -7,6 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
+import Pesanan from './Pesanan';
 export default function RiwayatProses(props) {
   const data = props.data ?? [];
   console.log(data);
@@ -15,6 +16,7 @@ export default function RiwayatProses(props) {
       <ScrollView
         contentContainerStyle={{
           minHeight: hp(100),
+          backgroundColor: 'white',
         }}>
         {data.map(v => (
           <TouchableOpacity
@@ -112,6 +114,26 @@ export default function RiwayatProses(props) {
               }}></View>
           </TouchableOpacity>
         ))}
+        {data.length == 0 ? (
+          <View
+            style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: wp(10),
+            }}>
+            <Image
+              source={require('../../assets/icon/tidak-ada.png')}
+              style={{
+                width: wp(50),
+                height: wp(50),
+                borderRadius: wp(1),
+              }}
+            />
+            <Text>Tidak Ada Pesanan</Text>
+          </View>
+        ) : (
+          <></>
+        )}
       </ScrollView>
     </View>
   );
