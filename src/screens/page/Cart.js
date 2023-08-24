@@ -78,11 +78,10 @@ export default function Cart({navigation, route}) {
     setLoading(true);
 
     try {
-      let res = await fetch(API_BASE_URL + '/pesan', {
+      let res = await fetch(API_BASE_URL + '/bayar', {
         method: 'post',
         body: JSON.stringify({
-          jenis: 'takeaway',
-          pesanan: pesanan,
+          id: 78,
         }),
         headers: {
           Accept: 'application/json',
@@ -99,7 +98,7 @@ export default function Cart({navigation, route}) {
           index: 0,
           routes: [
             {
-              name: 'MainScreen',
+              name: 'HomeAdmin',
             },
           ],
         });
@@ -136,12 +135,6 @@ export default function Cart({navigation, route}) {
           alignItems: 'center',
           elevation: 3,
         }}>
-        <IconButton
-          icon={require('../../assets/icon/back.png')}
-          size={wp(7)}
-          onPress={() => navigation.goBack()}
-          style={{zIndex: 1, elevation: 1}}
-        />
         <View
           style={{
             position: 'absolute',
@@ -367,42 +360,77 @@ export default function Cart({navigation, route}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity
-          disabled={loading}
+        <View
           style={{
-            height: wp(15),
-            width: wp(90),
-            // backgroundColor: COLOR_GRAY.LIGHTEST,
-            borderRadius: wp(3),
-            paddingHorizontal: wp(4),
-            paddingVertical: wp(2),
             flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 3,
-            },
-            shadowOpacity: 0.22,
-            shadowRadius: 2.22,
-            elevation: 4,
-            borderColor: COLOR.PRIMARY,
-            backgroundColor: COLOR.PRIMARY,
-            borderWidth: 1,
-          }}
-          onPress={() => checkout()}>
-          <View style={{alignSelf: 'center'}}>
-            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
-              Selesai
-            </Text>
-          </View>
-          <View style={{position: 'absolute', right: wp(3)}}>
-            <Text style={{color: 'white', fontWeight: '700', fontSize: wp(3)}}>
-              Rp. {parseInt(total.harga).toLocaleString()}
-            </Text>
-          </View>
-        </TouchableOpacity>
+            justifyContent: 'space-around',
+            width: wp(90),
+          }}>
+          <TouchableOpacity
+            disabled={loading}
+            style={{
+              height: wp(15),
+              width: wp(40),
+              // backgroundColor: COLOR_GRAY.LIGHTEST,
+              borderRadius: wp(3),
+              paddingHorizontal: wp(4),
+              paddingVertical: wp(2),
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 4,
+              borderColor: COLOR.PRIMARY,
+              backgroundColor: COLOR.PRIMARY,
+              borderWidth: 1,
+            }}
+            onPress={() => navigation.replace('Pesanan')}>
+            <View style={{alignSelf: 'center'}}>
+              <Text
+                style={{color: 'white', fontWeight: '700', fontSize: wp(3)}}>
+                Menu Pesanan
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            disabled={loading}
+            style={{
+              height: wp(15),
+              width: wp(40),
+              // backgroundColor: COLOR_GRAY.LIGHTEST,
+              borderRadius: wp(3),
+              paddingHorizontal: wp(4),
+              paddingVertical: wp(2),
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.22,
+              shadowRadius: 2.22,
+              elevation: 4,
+              borderColor: COLOR.PRIMARY,
+              backgroundColor: COLOR.PRIMARY,
+              borderWidth: 1,
+            }}
+            onPress={() => checkout()}>
+            <View style={{alignSelf: 'center'}}>
+              <Text
+                style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>
+                Bayar
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

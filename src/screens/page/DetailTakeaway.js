@@ -8,24 +8,10 @@ import {
 import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
 
-export default function DetailTakeaway({navigation}) {
-  const [pesanan, setPesanan] = useState([
-    {
-      nama: 'saya',
-      jumlah: 2,
-      status: 0,
-    },
-    {
-      nama: 'saya2',
-      jumlah: 3,
-      status: 0,
-    },
-    {
-      nama: 'saya3',
-      jumlah: 3,
-      status: 1,
-    },
-  ]);
+export default function DetailTakeaway({route}) {
+  console.log('detail', route.detail);
+  const {detail} = route.params;
+  const [pesanan, setPesanan] = useState(detail ?? []);
   return (
     <View>
       <ScrollView
@@ -34,8 +20,7 @@ export default function DetailTakeaway({navigation}) {
           paddingBottom: hp(25),
         }}>
         {pesanan.map(v => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('DetailTakeaway')}
+          <View
             style={{
               flexDirection: 'row',
               paddingVertical: wp(2),
@@ -75,12 +60,12 @@ export default function DetailTakeaway({navigation}) {
                     marginRight: wp(2),
                   }}>
                   <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
-                    Mie Pangsit {v.status}
+                    {v.nama}
                   </Text>
                 </View>
                 <View>
                   <Text style={{fontSize: wp(3), fontWeight: 'bold'}}>
-                    1pcs
+                    {v.banyak} pcs
                   </Text>
                 </View>
               </View>
@@ -93,7 +78,7 @@ export default function DetailTakeaway({navigation}) {
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
               }}></View>
-          </TouchableOpacity>
+          </View>
         ))}
       </ScrollView>
     </View>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
 import {Button, IconButton, MD3Colors} from 'react-native-paper';
 import {
@@ -9,26 +9,29 @@ import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
 
 export default function KokiPesanan({navigation}) {
-  const [pesanan, setPesanan] = useState([
-    {
-      user: 'saya',
-      jumlah: 2,
-      total: 50000,
-      status: 0,
-    },
-    {
-      user: 'saya2',
-      jumlah: 3,
-      total: 50000,
-      status: 0,
-    },
-    {
-      user: 'saya3',
-      jumlah: 3,
-      total: 50000,
-      status: 3,
-    },
-  ]);
+  const [pesanan, setPesanan] = useState([]);
+  const [reload, setReload] = useState(1);
+  const getPesanan = async () => {
+    try {
+      const response = await fetch(
+        'https://order.portalabsen.com/api/daftar-pesanan',
+      );
+      const json = await response.json();
+      console.log('daftar', json.data);
+      setPesanan(json.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getPesanan();
+      //Put your Data loading function here instead of my loadData()
+    });
+
+    getPesanan();
+    return unsubscribe;
+  }, [reload, navigation]);
   return (
     <View>
       <ScrollView
@@ -38,7 +41,9 @@ export default function KokiPesanan({navigation}) {
         }}>
         {pesanan.map(v => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('DetailTakeaway')}
+            onPress={() =>
+              navigation.navigate('DetailTakeaway', {detail: v.detail})
+            }
             style={{
               flexDirection: 'row',
               paddingVertical: wp(2),
@@ -78,17 +83,12 @@ export default function KokiPesanan({navigation}) {
                     marginRight: wp(2),
                   }}>
                   <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
-                    Mie Pangsit
-                  </Text>
-                </View>
-                <View>
-                  <Text style={{fontSize: wp(3), fontWeight: 'bold'}}>
-                    36pcs
+                    {v.jenis}
                   </Text>
                 </View>
                 <View style={{}}>
                   <Text style={{fontSize: wp(4), fontWeight: 'bold'}}>
-                    Rp.{v.total}
+                    Nama= {v.user.name}
                   </Text>
                 </View>
               </View>
