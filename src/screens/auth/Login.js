@@ -92,7 +92,7 @@ const Login = () => {
         console.log('respon', res);
         if (res.status == true) {
           await AsyncStorage.setItem('id', res.data.id.toString());
-          // await AsyncStorage.setItem("nama", res.data.name.toString());
+          await AsyncStorage.setItem('name', res.data.name.toString());
           await AsyncStorage.setItem('role', res.data.role.toString());
           alert('login Berhasil');
           if (res.data.role == 'user') {
@@ -188,7 +188,7 @@ const Login = () => {
           onPress={() => navigation.navigate('Register')}>
           <Text style={{color: '#0095da'}}>Daftar</Text>
         </Button>
-        {/* 
+
         <Button
           mode="contained"
           onPress={() => {
@@ -215,7 +215,7 @@ const Login = () => {
           style={styles.buttonDaftar}
           compact={false}>
           <Text style={{color: '#0095da'}}>Menu User</Text>
-        </Button> */}
+        </Button>
       </View>
     </View>
   );

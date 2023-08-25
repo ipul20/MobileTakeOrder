@@ -16,12 +16,15 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import {COLOR} from '../../styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Register = () => {
   const navigation = useNavigation();
 
   const [password, setPassword] = useState({value: '', error: false});
   const [username, setUsername] = useState({value: '', error: false});
+  const [name, setName] = useState({value: '', error: false});
+  const [nomor, setNomor] = useState({value: '', error: false});
   // const [checked, setChecked] = useState(false);
   const [icon, setIcon] = useState({
     icon: 'eye',
@@ -62,21 +65,9 @@ const Register = () => {
             error: false,
           });
     }
-    {
-      cekNull(confirm.value)
-        ? setConfirm({
-            ...confirm,
-            error: true,
-          })
-        : setConfirm({
-            ...confirm,
-            error: false,
-            message: 'confirm password invalid!',
-          });
-    }
   };
   const loginpress = () => {
-    fetch(`${API_BASE_URL}/login`, {
+    fetch(`${API_BASE_URL}/register`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,17 +75,22 @@ const Register = () => {
       body: JSON.stringify({
         username: username.value,
         password: password.value,
+        name: name.value,
+        no_hp: nomor.value,
+        role: 'user',
       }),
     })
       .then(res => res.json())
       .then(async res => {
         console.log('respon', res);
         if (res.status == true) {
-          if (res.data.role == 'user') {
-            navigation.replace('MainScreen');
-          } else if (res.data.role == 'admin') {
-            navigation.replace('HomeAdmin');
-          }
+          alert('registrasi berhasil');
+          await AsyncStorage.setItem('id', res.data.id.toString());
+          // await AsyncStorage.setItem("nama", res.data.name.toString());
+          await AsyncStorage.setItem('name', res.data.name.toString());
+
+          await AsyncStorage.setItem('role', res.data.role.toString());
+          navigation.replace('MainScreen');
         } else {
           alert(res.message);
         }
@@ -136,8 +132,8 @@ const Register = () => {
           style={styles.input}
           label="Name"
           mode="outlined"
-          value={username.value}
-          onChangeText={text => setUsername({value: text, error: false})}
+          value={name.value}
+          onChangeText={text => setName({value: text, error: false})}
           left={<TextInput.Icon name="account" color="#0095DA" />}
           theme={{colors: {primary: COLOR.PRIMARY}}}
         />
@@ -146,8 +142,8 @@ const Register = () => {
           style={styles.input}
           label="Nomor HP (WA) "
           mode="outlined"
-          value={username.value}
-          onChangeText={text => setUsername({value: text, error: false})}
+          value={nomor.value}
+          onChangeText={text => setNomor({value: text, error: false})}
           left={<TextInput.Icon name="account" color="#0095DA" />}
           theme={{colors: {primary: COLOR.PRIMARY}}}
         />
