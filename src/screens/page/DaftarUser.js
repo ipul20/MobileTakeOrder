@@ -7,8 +7,10 @@ import {
 } from 'react-native-responsive-screen';
 import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
+import {useNavigation} from '@react-navigation/native';
 
 export default function DaftarUser(props) {
+  const navigation = useNavigation();
   const [user, setUser] = useState([]);
   const role = props.role;
   const data = props.data ?? [];
@@ -32,7 +34,7 @@ export default function DaftarUser(props) {
             borderWidth: 2,
           }}
           onPress={() =>
-            navigation.navigate('TambahMenu', {
+            navigation.navigate('TambahUser', {
               role: role.toLowerCase(),
             })
           }>
