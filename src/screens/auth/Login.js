@@ -188,7 +188,7 @@ const Login = () => {
           onPress={() => navigation.navigate('Register')}>
           <Text style={{color: '#0095da'}}>Daftar</Text>
         </Button>
-        {/* 
+
         <Button
           mode="contained"
           onPress={() => {
@@ -215,7 +215,7 @@ const Login = () => {
           style={styles.buttonDaftar}
           compact={false}>
           <Text style={{color: '#0095da'}}>Menu User</Text>
-        </Button> */}
+        </Button>
       </View>
     </View>
   );
