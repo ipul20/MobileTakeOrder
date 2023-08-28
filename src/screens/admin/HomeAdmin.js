@@ -13,12 +13,20 @@ import {
 } from 'react-native-responsive-screen';
 import {COLOR} from '../../styles';
 import DatePicker from 'react-native-modern-datepicker';
+import {API_BASE_URL} from '../../../env';
 
 export default function HomeAdmin({navigation}) {
   const [show, setShow] = useState(false);
   const [modal, setModal] = useState(false);
   const [calendar, setCalender] = useState('');
   const [date, setDate] = useState('');
+  const cekLaporan = () => {
+    if (date == '') {
+      alert('masukkan tanggal terlebih dahulu');
+    } else {
+      navigation.navigate('Laporan', {date: date});
+    }
+  };
   return (
     <View
       style={{
@@ -98,7 +106,9 @@ export default function HomeAdmin({navigation}) {
 
           <Button
             mode="contained"
-            onPress={async () => {}}
+            onPress={async () => {
+              cekLaporan();
+            }}
             style={{borderRadius: wp(2), backgroundColor: COLOR.PRIMARY}}>
             Cek Laporan
           </Button>
