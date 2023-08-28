@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Button, IconButton, MD3Colors} from 'react-native-paper';
 import {
   heightPercentageToDP as hp,
@@ -9,26 +16,106 @@ import {API_BASE_URL, BASE_URL} from '../../../../env';
 import {COLOR, COLOR_GRAY} from '../../../styles';
 
 export default function Takeaway({navigation}) {
-  const [pesanan, setPesanan] = useState([
-    {
-      user: 'saya',
-      jumlah: 2,
-      total: 50000,
-      status: 0,
-    },
-    {
-      user: 'saya2',
-      jumlah: 3,
-      total: 50000,
-      status: 0,
-    },
-    {
-      user: 'saya3',
-      jumlah: 3,
-      total: 50000,
-      status: 3,
-    },
-  ]);
+  const [loading, setLoading] = useState(false);
+  const [pesanan, setPesanan] = useState([]);
+  const [reload, setReload] = useState(1);
+  const getPesanan = async () => {
+    try {
+      const response = await fetch(
+        'https://order.portalabsen.com/api/daftar-pesanan-takeaway',
+      );
+      const json = await response.json();
+      console.log('daftar', json.data);
+      setPesanan(json.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleKonfirmasi = id => {
+    Alert.alert(
+      'Peringatan!',
+      'Yakin Ingin Konfirmasi Pesanan?',
+      [
+        {
+          text: 'YA',
+          onPress: async () => {
+            konfirmasiPesanan(id, 2);
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Batal',
+          // onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
+  const handleCancel = id => {
+    Alert.alert(
+      'Peringatan!',
+      'Yakin Ingin Membatalkan Pesanan?',
+      [
+        {
+          text: 'YA',
+          onPress: async () => {
+            konfirmasiPesanan(id, 5);
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Batal',
+          // onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
+  const konfirmasiPesanan = async (id, status) => {
+    setLoading(true);
+
+    try {
+      let res = await fetch(API_BASE_URL + '/konfirmasi-pesanan', {
+        method: 'post',
+        body: JSON.stringify({
+          id: id,
+          status: status,
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      let result = await res.json();
+      setLoading(false);
+      console.log('respon', result);
+      if (result.status == true) {
+        alert('Update PesananBerhasil');
+        setReload(reload + 1);
+        // navigation.push('MainScreen');
+        // navigation.goBack();
+      }
+    } catch (error) {
+      console.log('error upload', error);
+      alert('Tambah Pesanan gagal :', error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getPesanan();
+      //Put your Data loading function here instead of my loadData()
+    });
+
+    getPesanan();
+    return unsubscribe;
+  }, [reload, navigation]);
   return (
     <View>
       <ScrollView
@@ -38,7 +125,9 @@ export default function Takeaway({navigation}) {
         }}>
         {pesanan.map(v => (
           <TouchableOpacity
-            onPress={() => navigation.navigate('DetailTakeaway')}
+            onPress={() =>
+              navigation.navigate('DetailTakeaway', {detail: v.detail})
+            }
             style={{
               flexDirection: 'row',
               paddingVertical: wp(2),
@@ -72,35 +161,35 @@ export default function Takeaway({navigation}) {
               <View
                 style={{
                   flexDirection: 'column',
+                  width: wp(35),
                 }}>
-                <View
-                  style={{
-                    marginRight: wp(2),
-                  }}>
-                  <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
-                    Mie Pangsit
-                  </Text>
-                </View>
-                <View>
-                  <Text style={{fontSize: wp(3), fontWeight: 'bold'}}>
-                    36pcs
-                  </Text>
-                </View>
                 <View style={{}}>
+                  <Text style={{fontSize: wp(5), fontWeight: 'bold'}}>
+                    {v.jenis}
+                  </Text>
                   <Text style={{fontSize: wp(4), fontWeight: 'bold'}}>
-                    Rp.{v.total}
+                    Nama= {v.user.name}
+                  </Text>
+                  <Text
+                    style={{fontSize: wp(4), fontWeight: 'bold'}}
+                    numberOfLines={1}
+                    adjustsFontSizeToFit>
+                    status={' '}
+                    {v.status == 0
+                      ? 'Menunggu Konfirmasi'
+                      : v.status == 2
+                      ? 'Sedang Dibuat'
+                      : 'selesai dibuat'}
                   </Text>
                 </View>
               </View>
-            </View>
-            <View
-              style={{
-                alignItems: 'center',
-                width: wp(31),
-                alignSelf: 'center',
-                flexDirection: 'row',
-              }}>
-              {v.status == 0 ? (
+              <View
+                style={{
+                  alignItems: 'center',
+                  width: wp(31),
+                  alignSelf: 'center',
+                  flexDirection: 'row',
+                }}>
                 <>
                   <IconButton
                     mode="contained"
@@ -116,7 +205,7 @@ export default function Takeaway({navigation}) {
                     icon={require('../../../assets/icon/confirm.png')}
                     iconColor={MD3Colors.error50}
                     size={wp(3.5)}
-                    onPress={() => console.log('dd')}
+                    onPress={() => handleKonfirmasi(v.id)}
                   />
                   <IconButton
                     mode="contained"
@@ -124,16 +213,10 @@ export default function Takeaway({navigation}) {
                     icon={require('../../../assets/icon/cancel.png')}
                     iconColor={MD3Colors.error50}
                     size={wp(3.5)}
-                    onPress={() => console.log('dd')}
+                    onPress={() => handleCancel(v.id)}
                   />
                 </>
-              ) : (
-                <>
-                  <TouchableOpacity style={{backgroundColor: 'red'}}>
-                    <Text>Selesai</Text>
-                  </TouchableOpacity>
-                </>
-              )}
+              </View>
             </View>
           </TouchableOpacity>
         ))}
