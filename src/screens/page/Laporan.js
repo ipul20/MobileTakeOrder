@@ -31,9 +31,8 @@ export default function Laporan({route}) {
         console.log('respon', res);
         if (res.status == true) {
           console.log('res data', res.data);
-          setPenjualan(res.data);
+          await setPenjualan(res.data);
           console.log('penj', penjualan);
-          //   sumTotal();
         } else {
           alert(res.message);
         }
@@ -49,12 +48,12 @@ export default function Laporan({route}) {
   };
   const sumTotal = async () => {
     const menu = penjualan.reduce(
-      (total, current) => (total = total + parseInt(current.total_menu)),
+      (total, current) => (total = total + parseInt(current.total_menu ?? 0)),
       0,
     );
     console.log('menuuuu', menu);
     const harga = penjualan.reduce(
-      (total, current) => (total = total + parseInt(current.total_harga)),
+      (total, current) => (total = total + parseInt(current.total_harga ?? 0)),
       0,
     );
     setDetail({menu: menu, harga: harga});
