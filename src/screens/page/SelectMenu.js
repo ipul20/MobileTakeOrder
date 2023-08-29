@@ -316,6 +316,8 @@ export default function SelectMenu({navigation, route}) {
                       id: v.id,
                       banyak: 1,
                       harga: v.harga,
+                      nama: v.nama,
+                      gambar: v.gambar,
                     },
                   ]);
                 }}>

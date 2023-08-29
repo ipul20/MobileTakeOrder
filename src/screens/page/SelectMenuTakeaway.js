@@ -314,6 +314,8 @@ export default function SelectMenuTakeaway({navigation}) {
                       id: v.id,
                       banyak: 1,
                       harga: v.harga,
+                      nama: v.nama,
+                      gambar: v.gambar,
                     },
                   ]);
                 }}>
