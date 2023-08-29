@@ -19,8 +19,8 @@ export default function RiwayatProses(props) {
           backgroundColor: 'white',
         }}>
         {data.map(v => (
-          <TouchableOpacity
-            onPress={() => navigation.navigate('DetailTakeaway')}
+          <View
+            // onPress={() => navigation.navigate('DetailTakeaway')}
             style={{
               flexDirection: 'row',
               paddingVertical: wp(2),
@@ -85,9 +85,13 @@ export default function RiwayatProses(props) {
                   <></>
                 )}
                 {v.jenis == 'takeaway' ? (
-                  <View style={{flexDirection: 'row'}}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      width: wp(65),
+                    }}>
                     <Text style={{fontSize: wp(3)}}>Status = </Text>
-                    <Text style={{fontSize: wp(3)}}>
+                    <Text style={{fontSize: wp(3)}} numberOfLines={2}>
                       {v.status == 0
                         ? 'menunggu konfirmasi admin'
                         : v.status == 2
@@ -112,7 +116,7 @@ export default function RiwayatProses(props) {
                 alignSelf: 'center',
                 flexDirection: 'row',
               }}></View>
-          </TouchableOpacity>
+          </View>
         ))}
         {data.length == 0 ? (
           <View
