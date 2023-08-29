@@ -95,7 +95,7 @@ export default function DaftarUser(props) {
           <Text>Tambah Data {role}</Text>
         </Button>
         {data.map(v => (
-          <TouchableOpacity
+          <View
             onPress={() => navigation.navigate('DetailTakeaway')}
             style={{
               flexDirection: 'row',
@@ -172,7 +172,7 @@ export default function DaftarUser(props) {
                 alignSelf: 'center',
                 flexDirection: 'row',
               }}></View>
-          </TouchableOpacity>
+          </View>
         ))}
       </ScrollView>
     </View>
