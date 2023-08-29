@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, Text, ScrollView, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import {Button, IconButton, MD3Colors} from 'react-native-paper';
 import {
   heightPercentageToDP as hp,
@@ -14,6 +21,52 @@ export default function DaftarUser(props) {
   const [user, setUser] = useState([]);
   const role = props.role;
   const data = props.data ?? [];
+  const showAlert = (name, id) => {
+    Alert.alert('Anda Yakin ?', 'Anda Yakin Ingin Menghapus User ' + name, [
+      // The "Yes" button
+      {
+        text: 'Yes',
+        onPress: () => {
+          return deleteUser(id);
+        },
+      },
+      // The "No" button
+      // Does nothing but dismiss the dialog when tapped
+      {
+        text: 'No',
+      },
+    ]);
+  };
+  const deleteUser = id => {
+    fetch(`${API_BASE_URL}/delete-user`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: id,
+      }),
+    })
+      .then(res => res.json())
+      .then(async res => {
+        console.log('respon', res);
+        if (res.status == true) {
+          Alert.alert('Delete user berhasil');
+          props.reloadPage();
+        } else {
+          Alert.alert(res.message);
+          props.reloadPage();
+        }
+      })
+      .catch(function (error) {
+        console.log(
+          'There has been a problem with your fetch operation: ' +
+            error.message,
+        );
+        // ADD THIS THROW error
+        throw error;
+      });
+  };
   return (
     <View>
       <ScrollView
@@ -101,14 +154,14 @@ export default function DaftarUser(props) {
                   icon={require('../../assets/icon/edit.png')}
                   iconColor={MD3Colors.error50}
                   size={wp(5)}
-                  onPress={() => navigation.navigate('EditMenu', v)}
+                  onPress={() => navigation.navigate('EditUser', v)}
                 />
                 <IconButton
                   mode="contained"
                   icon={require('../../assets/icon/delete.png')}
                   iconColor={MD3Colors.error50}
                   size={wp(5)}
-                  onPress={() => showAlert(v.nama, v.id)}
+                  onPress={() => showAlert(v.name, v.id)}
                 />
               </View>
             </View>

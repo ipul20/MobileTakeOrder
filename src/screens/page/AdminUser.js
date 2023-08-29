@@ -42,15 +42,33 @@ export default function AdminUser({navigation}) {
       <Tab.Navigator>
         <Tab.Screen
           name="Admin"
-          children={() => <DaftarUser role="Admin" data={user.admin} />}
+          children={() => (
+            <DaftarUser
+              role="Admin"
+              data={user.admin}
+              reloadPage={() => setReload(reload + 1)}
+            />
+          )}
         />
         <Tab.Screen
           name="Koki"
-          children={() => <DaftarUser role="Koki" data={user.koki} />}
+          children={() => (
+            <DaftarUser
+              role="Koki"
+              data={user.koki}
+              reloadPage={() => setReload(reload + 1)}
+            />
+          )}
         />
         <Tab.Screen
           name="User"
-          children={() => <DaftarUser role="User" data={user.user} />}
+          children={() => (
+            <DaftarUser
+              role="User"
+              data={user.user}
+              reloadPage={() => setReload(reload + 1)}
+            />
+          )}
         />
       </Tab.Navigator>
     </>
