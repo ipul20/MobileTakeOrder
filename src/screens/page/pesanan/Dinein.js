@@ -17,6 +17,7 @@ export default function Dinein({navigation}) {
     reservasi: false,
   });
   const [pesan, setPesan] = useState({user_id: 0, meja: 0});
+  const [idmeja, setIdmeja] = useState(null);
   const hideModal = jenis => {
     if (jenis == 'dinein') {
       setModal({...modal, dinein: false});
@@ -113,6 +114,35 @@ export default function Dinein({navigation}) {
     }
   };
 
+  const konfirmasiReservasi = async () => {
+    setLoading(true);
+
+    try {
+      let res = await fetch(API_BASE_URL + '/konfirmasi-reservasi', {
+        method: 'post',
+        body: JSON.stringify({
+          id: idmeja,
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      let result = await res.json();
+      setLoading(false);
+      console.log('respon', result);
+      if (result.status == true) {
+        alert('Konfirmasi Reservasi Berhasil');
+        navigation.replace('SelectMenu', {pesan: []});
+        // navigation.push('MainScreen');
+        // navigation.goBack();
+      }
+    } catch (error) {
+      console.log('error upload', error);
+      alert('Konfirmasi Reservasi gagal :', error);
+      setLoading(false);
+    }
+  };
   const Bayar = async () => {
     navigation.navigate('Cart', {pesan: []});
   };
@@ -160,6 +190,8 @@ export default function Dinein({navigation}) {
               alignSelf: 'flex-end',
             }}
             onPress={() => {
+              setIdmeja(v.id);
+
               if (v.status && v.jenis == 'dineIn') {
                 showModal('dinein');
               } else if (v.status && v.jenis == 'reservasi') {
@@ -362,7 +394,9 @@ export default function Dinein({navigation}) {
         <View style={{flexDirection: 'row', marginTop: wp(5)}}>
           <Button
             mode="contained"
-            onPress={async () => {}}
+            onPress={async () => {
+              konfirmasiReservasi();
+            }}
             style={{borderRadius: wp(2), backgroundColor: COLOR.PRIMARY}}>
             Konfirmasi Kedatangan
           </Button>
