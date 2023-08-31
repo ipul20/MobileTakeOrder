@@ -111,6 +111,44 @@ export default function Cart({navigation, route}) {
       setLoading(false);
     }
   };
+  const updatePesanan = async id => {
+    setLoading(true);
+
+    try {
+      let res = await fetch(API_BASE_URL + '/tambah-pesanan', {
+        method: 'post',
+        body: JSON.stringify({
+          id: 147,
+          pesanan: pesanan,
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      let result = await res.json();
+      setLoading(false);
+      console.log('respon', result);
+      if (result.status == true) {
+        alert('Tambah Pesanan Berhasil');
+        setPesanan([]);
+        navigation.reset({
+          index: 0,
+          routes: [
+            {
+              name: 'HomeAdmin',
+            },
+          ],
+        });
+        // navigation.push('MainScreen');
+        // navigation.goBack();
+      }
+    } catch (error) {
+      console.log('error upload', error);
+      alert('Tambah Pesanan gagal :', error);
+      setLoading(false);
+    }
+  };
   useEffect(() => {
     sumTotal();
   }, [pesanan]);

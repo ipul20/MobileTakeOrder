@@ -358,8 +358,14 @@ export default function Dinein({navigation}) {
           width: wp(80),
           alignItems: 'center',
         }}>
+        <Text>Reservasi</Text>
         <View style={{flexDirection: 'row', marginTop: wp(5)}}>
-          <Text>Reservasi</Text>
+          <Button
+            mode="contained"
+            onPress={async () => {}}
+            style={{borderRadius: wp(2), backgroundColor: COLOR.PRIMARY}}>
+            Konfirmasi Kedatangan
+          </Button>
         </View>
       </Modal>
     </View>
