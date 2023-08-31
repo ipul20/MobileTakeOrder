@@ -395,7 +395,7 @@ export default function Dinein({navigation}) {
           <Button
             mode="contained"
             onPress={async () => {
-              konfirmasiReservasi();
+              await konfirmasiReservasi();
             }}
             style={{borderRadius: wp(2), backgroundColor: COLOR.PRIMARY}}>
             Konfirmasi Kedatangan

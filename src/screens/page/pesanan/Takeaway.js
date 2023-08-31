@@ -54,6 +54,29 @@ export default function Takeaway({navigation}) {
       },
     );
   };
+  const handleSelesai = id => {
+    Alert.alert(
+      'Peringatan!',
+      'Pesanan Selesai Di buat?',
+      [
+        {
+          text: 'YA',
+          onPress: async () => {
+            konfirmasiPesanan(id, 3);
+          },
+          style: 'cancel',
+        },
+        {
+          text: 'Batal',
+          // onPress: () => Alert.alert('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+  };
   const handleCancel = id => {
     Alert.alert(
       'Peringatan!',
@@ -190,32 +213,66 @@ export default function Takeaway({navigation}) {
                   alignSelf: 'center',
                   flexDirection: 'row',
                 }}>
-                <>
-                  <IconButton
-                    mode="contained"
-                    style={{borderRadius: wp(2)}}
-                    icon={require('../../../assets/icon/whatsapp.png')}
-                    iconColor={MD3Colors.error50}
-                    size={wp(3.5)}
-                    onPress={() => console.log('dd')}
-                  />
-                  <IconButton
-                    mode="contained"
-                    style={{borderRadius: wp(2), padding: 0}}
-                    icon={require('../../../assets/icon/confirm.png')}
-                    iconColor={MD3Colors.error50}
-                    size={wp(3.5)}
-                    onPress={() => handleKonfirmasi(v.id)}
-                  />
-                  <IconButton
-                    mode="contained"
-                    style={{borderRadius: wp(2)}}
-                    icon={require('../../../assets/icon/cancel.png')}
-                    iconColor={MD3Colors.error50}
-                    size={wp(3.5)}
-                    onPress={() => handleCancel(v.id)}
-                  />
-                </>
+                {v.status == 0 && (
+                  <>
+                    <IconButton
+                      mode="contained"
+                      style={{borderRadius: wp(2)}}
+                      icon={require('../../../assets/icon/whatsapp.png')}
+                      iconColor={MD3Colors.error50}
+                      size={wp(3.5)}
+                      onPress={() => console.log('dd')}
+                    />
+                    <IconButton
+                      mode="contained"
+                      style={{borderRadius: wp(2), padding: 0}}
+                      icon={require('../../../assets/icon/confirm.png')}
+                      iconColor={MD3Colors.error50}
+                      size={wp(3.5)}
+                      onPress={() => handleKonfirmasi(v.id)}
+                    />
+                    <IconButton
+                      mode="contained"
+                      style={{borderRadius: wp(2)}}
+                      icon={require('../../../assets/icon/cancel.png')}
+                      iconColor={MD3Colors.error50}
+                      size={wp(3.5)}
+                      onPress={() => handleCancel(v.id)}
+                    />
+                  </>
+                )}
+                {v.status == 2 && (
+                  <>
+                    <Button
+                      mode="contained"
+                      onPress={async () => {
+                        await handleSelesai(v.id);
+                      }}
+                      style={{
+                        borderRadius: wp(2),
+                        marginLeft: wp(5),
+                        backgroundColor: COLOR.PRIMARY,
+                      }}>
+                      Selesai
+                    </Button>
+                  </>
+                )}
+                {v.status == 3 && (
+                  <>
+                    <Button
+                      mode="contained"
+                      onPress={async () => {
+                        navigation.navigate('BayarTakeaway', {id: v.id});
+                      }}
+                      style={{
+                        borderRadius: wp(2),
+                        marginLeft: wp(5),
+                        backgroundColor: COLOR.PRIMARY,
+                      }}>
+                      Bayar
+                    </Button>
+                  </>
+                )}
               </View>
             </View>
           </TouchableOpacity>

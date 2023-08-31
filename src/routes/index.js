@@ -34,6 +34,7 @@ import CartTakeaway from '../screens/page/CartTakeaway';
 import TambahUser from '../screens/page/TambahUser';
 import Laporan from '../screens/page/Laporan';
 import EditUser from '../screens/page/EditUser';
+import BayarTakeaway from '../screens/page/BayarTakeaway';
 
 const Tab = createMaterialBottomTabNavigator();
 function MainScreen() {
@@ -150,6 +151,7 @@ export default function RoutesContainer() {
         <Stack.Screen name="Pembayaran" component={Pembayaran} />
         <Stack.Screen name="DetailTakeaway" component={DetailTakeaway} />
         <Stack.Screen name="Cart" component={Cart} />
+        <Stack.Screen name="BayarTakeaway" component={BayarTakeaway} />
         <Stack.Screen name="Laporan" component={Laporan} />
 
         {/* Koki */}
