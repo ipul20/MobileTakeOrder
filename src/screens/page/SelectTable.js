@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import {Button} from 'react-native-paper';
 import {
   heightPercentageToDP as hp,
@@ -54,7 +54,7 @@ export default function SelectTable({navigation}) {
   };
   const Reservasi = async () => {
     const user_id = await AsyncStorage.getItem('id');
-
+    console.log(user_id);
     setLoading(true);
 
     try {
@@ -74,13 +74,13 @@ export default function SelectTable({navigation}) {
       setLoading(false);
       console.log('respon', result);
       if (result.status == true) {
-        alert('Tambah Pesanan Berhasil');
+        Alert.alert('Pemberitahuan', 'Reservasi Berhasil');
         navigation.replace('MainScreen', {screen: 'Riwayat', initial: false});
 
         // navigation.push('MainScreen');
         // navigation.goBack();
       } else {
-        alert(result.message);
+        Alert.alert('Reservasi Gagal!', result.message);
         navigation.replace('MainScreen', {screen: 'Riwayat', initial: false});
       }
     } catch (error) {
