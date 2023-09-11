@@ -11,6 +11,7 @@ import {API_BASE_URL, BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
 export default function Cart({navigation, route}) {
   const {pesan} = route.params;
+  const {PesananId} = route.params ?? '';
   const {meja} = route.params;
   const {jenis} = route.params ?? '';
 
@@ -65,7 +66,7 @@ export default function Cart({navigation, route}) {
     setPesanan(current =>
       current.map(obj => {
         if (obj.id === id) {
-          return {...obj, id: id, banyak: obj.banyak + 1};
+          return {...obj, id: id, banyak: parseInt(obj.banyak) + 1};
         }
 
         return obj;

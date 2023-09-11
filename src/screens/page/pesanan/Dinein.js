@@ -143,8 +143,30 @@ export default function Dinein({navigation}) {
       setLoading(false);
     }
   };
-  const Bayar = async () => {
-    navigation.navigate('Cart', {pesan: []});
+  const Bayar = async id => {
+    try {
+      const response = await fetch(
+        `https://order.portalabsen.com/api/cek-pesanan/${id}`,
+      );
+      const json = await response.json();
+      let detail = json.data.detail;
+      detail = detail.map(({menu_id, nama, banyak, harga, menu}) => {
+        return {
+          id: menu_id,
+          nama,
+          banyak: banyak,
+          harga,
+          gambar: menu.gambar,
+        };
+      });
+      navigation.navigate('Cart', {pesan: detail});
+      // setRiwayat({
+      //   selesai: json.data.selesai,
+      //   belum: json.data.belum,
+      // });
+    } catch (error) {
+      console.error(error);
+    }
   };
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -307,7 +329,7 @@ export default function Dinein({navigation}) {
           style={{
             alignItems: 'center',
           }}>
-          <Text>Pesanan Dine In</Text>
+          <Text>Pesanan Dine In {idmeja}</Text>
           <View style={{flexDirection: 'row', marginTop: wp(5)}}>
             <Button
               mode="contained"
@@ -316,7 +338,7 @@ export default function Dinein({navigation}) {
                 backgroundColor: COLOR.PRIMARY,
                 borderRadius: wp(2),
               }}
-              onPress={() => Bayar()}>
+              onPress={() => Bayar(idmeja)}>
               Bayar
             </Button>
             <Button
