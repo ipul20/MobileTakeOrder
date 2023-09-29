@@ -135,7 +135,7 @@ export default function Laporan({route}) {
               shadowRadius: 2.22,
               elevation: 3,
             }}>
-            <Text>Total Harga</Text>
+            <Text>Total Pendapatan</Text>
             <Text>Rp. {parseInt(detail.harga).toLocaleString()}</Text>
           </View>
           <View
