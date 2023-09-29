@@ -17,6 +17,7 @@ import {BASE_URL} from '../../../env';
 import {COLOR, COLOR_GRAY} from '../../styles';
 export default function SelectMenu({navigation, route}) {
   const {pesan} = route.params;
+  const {PesananId} = route.params;
   const [pesanan, setPesanan] = useState(pesan);
   console.log('pesanan', pesanan);
   const [cart, setCart] = useState([1, 2, 3, 4]);
@@ -372,7 +373,9 @@ export default function SelectMenu({navigation, route}) {
             backgroundColor: COLOR.PRIMARY,
             borderWidth: 1,
           }}
-          onPress={() => navigation.navigate('Cart', {pesan: pesanan})}>
+          onPress={() =>
+            navigation.navigate('Cart', {pesan: pesanan, PesananId: PesananId})
+          }>
           <Text style={{color: 'white', fontWeight: '700'}}>
             {total.item} Item
           </Text>

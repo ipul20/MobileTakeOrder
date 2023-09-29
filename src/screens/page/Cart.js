@@ -1,6 +1,6 @@
 import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import {Button, IconButton, MD3Colors} from 'react-native-paper';
 import {
@@ -15,7 +15,7 @@ export default function Cart({navigation, route}) {
   const {meja} = route.params;
   const {jenis} = route.params ?? '';
 
-  console.log('pesananddd', pesan);
+  console.log('pesananddd', PesananId);
   const [loading, setLoading] = useState(false);
   const [pesanan, setPesanan] = useState(pesan ?? []);
 
@@ -77,39 +77,45 @@ export default function Cart({navigation, route}) {
 
   const checkout = async () => {
     setLoading(true);
-
-    try {
-      let res = await fetch(API_BASE_URL + '/bayar', {
-        method: 'post',
-        body: JSON.stringify({
-          id: 78,
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      });
-      let result = await res.json();
-      setLoading(false);
-      console.log('respon', result);
-      if (result.status == true) {
-        alert('Tambah Pesanan Berhasil');
-        setPesanan([]);
-        navigation.reset({
-          index: 0,
-          routes: [
-            {
-              name: 'HomeAdmin',
-            },
-          ],
+    if (pesanan.length > 0) {
+      try {
+        let res = await fetch(API_BASE_URL + '/bayar', {
+          method: 'post',
+          body: JSON.stringify({
+            id: PesananId,
+            pesanan: pesanan,
+          }),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
         });
-        // navigation.push('MainScreen');
-        // navigation.goBack();
+        let result = await res.json();
+        setLoading(false);
+        console.log('respon', result);
+        if (result.status == true) {
+          alert('Pesanan Selesai');
+          setPesanan([]);
+          navigation.reset({
+            index: 0,
+            routes: [
+              {
+                name: 'HomeAdmin',
+              },
+            ],
+          });
+          // navigation.push('MainScreen');
+          // navigation.goBack();
+        }
+      } catch (error) {
+        console.log('error upload', error);
+        alert('Tambah Pesanan gagal :', error);
+        setLoading(false);
       }
-    } catch (error) {
-      console.log('error upload', error);
-      alert('Tambah Pesanan gagal :', error);
+    } else {
       setLoading(false);
+
+      Alert.alert('Pesanan Masih kosong ');
     }
   };
   const updatePesanan = async id => {
@@ -119,7 +125,7 @@ export default function Cart({navigation, route}) {
       let res = await fetch(API_BASE_URL + '/tambah-pesanan', {
         method: 'post',
         body: JSON.stringify({
-          id: 147,
+          id: PesananId,
           pesanan: pesanan,
         }),
         headers: {
@@ -131,7 +137,7 @@ export default function Cart({navigation, route}) {
       setLoading(false);
       console.log('respon', result);
       if (result.status == true) {
-        alert('Tambah Pesanan Berhasil');
+        alert('Update Pesanan Berhasil');
         setPesanan([]);
         navigation.reset({
           index: 0,
@@ -359,7 +365,11 @@ export default function Cart({navigation, route}) {
             borderWidth: 1,
           }}
           onPress={() => {
-            navigation.navigate('SelectMenu', {pesan: pesanan});
+            pesanan: pesanan,
+              navigation.navigate('SelectMenu', {
+                pesan: pesanan,
+                PesananId: PesananId,
+              });
           }}>
           <View style={{alignSelf: 'center'}}>
             <Text style={{color: 'white', fontWeight: '700', fontSize: wp(5)}}>

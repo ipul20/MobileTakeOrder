@@ -103,7 +103,10 @@ export default function Dinein({navigation}) {
       console.log('respon', result);
       if (result.status == true) {
         alert('Tambah Pesanan Berhasil');
-        navigation.replace('SelectMenu', {pesan: []});
+        navigation.replace('SelectMenu', {
+          pesan: [],
+          PesananId: result.data.id,
+        });
         // navigation.push('MainScreen');
         // navigation.goBack();
       }
@@ -159,7 +162,7 @@ export default function Dinein({navigation}) {
           gambar: menu.gambar,
         };
       });
-      navigation.navigate('Cart', {pesan: detail});
+      navigation.navigate('Cart', {pesan: detail, PesananId: id});
       // setRiwayat({
       //   selesai: json.data.selesai,
       //   belum: json.data.belum,
